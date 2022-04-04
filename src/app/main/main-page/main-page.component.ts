@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {AuthService} from "../../shared/auth/auth.service";
 
 @Component({
   selector: 'app-main',
@@ -10,15 +11,12 @@ import {Router} from "@angular/router";
 export class MainPageComponent implements OnInit {
 
   constructor(
-    private router: Router
+    private router: Router,
+    public auth: AuthService
   ) {
   }
 
   ngOnInit(): void {}
-
-  goToRegisterForm(): void {
-    this.router.navigateByUrl('/main/register');
-  }
 
   goToAdminPage(): void {
     this.router.navigate(['admin']);

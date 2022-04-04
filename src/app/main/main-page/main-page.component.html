@@ -11,15 +11,7 @@
     </button>
   </mat-menu>
 
-  <div>
-    <button mat-icon-button
-            title="реєстрація"
-            class="m-r-1"
-            (click)="goToRegisterForm()"
-    >
-      <mat-icon>person_add</mat-icon>
-    </button>
-
+  <div *ngIf="!auth.isAuthenticated()">
     <button title="вхід"
             mat-icon-button
             class="m-r-1"
@@ -28,14 +20,7 @@
     </button>
   </div>
 
-  <div>
-    <button mat-icon-button
-            title="профіль"
-            class="m-r-1"
-    >
-      <mat-icon>person</mat-icon>
-    </button>
-
+  <div *ngIf="auth.isAuthenticated()">
     <button
       title="вихід"
       mat-icon-button
