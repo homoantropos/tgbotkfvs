@@ -14,7 +14,7 @@ import {MatButtonModule} from "@angular/material/button";
 import { LoginPageComponent } from './main/login-page/login-page.component';
 import { LoaderComponent } from './shared/components/loader/loader.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./shared/auth/auth.interceptor";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -32,6 +32,7 @@ import {MatInputModule} from "@angular/material/input";
     ReactiveFormsModule,
     BrowserAnimationsModule,
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     MatIconModule,
     MatToolbarModule,
