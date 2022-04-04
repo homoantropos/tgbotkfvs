@@ -11,12 +11,21 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatButtonModule} from "@angular/material/button";
+import { LoginPageComponent } from './main/login-page/login-page.component';
+import { LoaderComponent } from './shared/components/loader/loader.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {AuthInterceptor} from "./shared/auth/auth.interceptor";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
     AppComponent,
     AlertComponent,
-    MainPageComponent
+    MainPageComponent,
+    LoginPageComponent,
+    LoaderComponent
   ],
   imports: [
     FormsModule,
@@ -27,9 +36,16 @@ import {MatButtonModule} from "@angular/material/button";
     MatIconModule,
     MatToolbarModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
-  providers: [],
+  providers: [    {
+    provide: HTTP_INTERCEPTORS,
+    multi: true,
+    useClass: AuthInterceptor
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
