@@ -1,0 +1,49 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">
+      <p>Головна</p>
+    </button>
+    <button mat-menu-item (click)="goToAdminPage()" routerLinkActive="active">
+      <p>admin</p>
+    </button>
+  </mat-menu>
+
+  <div>
+    <button mat-icon-button
+            title="реєстрація"
+            class="m-r-1"
+            (click)="goToRegisterForm()"
+    >
+      <mat-icon>person_add</mat-icon>
+    </button>
+
+    <button title="вхід"
+            mat-icon-button
+            class="m-r-1"
+    >
+      <mat-icon routerLink="login" routerLinkActive="active">login</mat-icon>
+    </button>
+  </div>
+
+  <div>
+    <button mat-icon-button
+            title="профіль"
+            class="m-r-1"
+    >
+      <mat-icon>person</mat-icon>
+    </button>
+
+    <button
+      title="вихід"
+      mat-icon-button
+      class="m-r-1">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+
+</mat-toolbar>
+
+<router-outlet></router-outlet>
