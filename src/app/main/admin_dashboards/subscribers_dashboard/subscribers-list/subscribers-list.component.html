@@ -1,0 +1,53 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th (click)="sortTable(['id'])"
+        [innerHTML]="sortDirection ? 'id &#8595;' : 'id &#8593;'"
+        class="sortArrow"></th>
+    <th (click)="sortTable(['tgId'])"
+        [innerHTML]="sortDirection ? 'tgId &#8595;' : 'tgId &#8593;'"
+        class="sortArrow"></th>
+    <th (click)="sortTable(['username'])"
+        [innerHTML]="sortDirection ? 'username &#8595;' : 'username &#8593;'"
+        class="sortArrow"></th>
+    <th (click)="sortTable(['first_name'])"
+        [innerHTML]="sortDirection ? 'first_name &#8595;' : 'first_name &#8593;'"
+        class="sortArrow"></th>
+    <th (click)="sortTable(['last_name'])"
+        [innerHTML]="sortDirection ? 'last_name &#8595;' : 'last_name &#8593;'"
+        class="sortArrow"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let subscriber of subscribers |
+  paginate: { itemsPerPage: itemsPerPage, currentPage: paginatorStartPageNumber }">
+    <td>{{subscriber.id}}</td>
+    <td>{{subscriber.tgId}}</td>
+    <td>{{subscriber.username}}</td>
+    <td>{{subscriber.first_name}}</td>
+    <td>{{subscriber.last_name}}</td>
+  </tr>
+  </tbody>
+</table>
+<div>
+  <div class="paginatorSelect">
+    <small>
+      рядків на сторінці:
+    </small>
+    <mat-select
+      [(ngModel)]="itemsPerPage"
+    >
+      <mat-option value=5>5</mat-option>
+      <mat-option value=10>10</mat-option>
+      <mat-option value=15>15</mat-option>
+    </mat-select>
+  </div>
+  <pagination-controls
+    class="my-pagination"
+    (pageChange)="paginatorStartPageNumber = $event"
+    previousLabel="назад"
+    nextLabel="уперед"
+  ></pagination-controls>
+</div>
+
+
