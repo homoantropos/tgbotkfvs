@@ -5,3 +5,12 @@ export interface User {
   status?: string,
   id?: number
 }
+
+export interface Subscriber {
+  tgId: number,
+  username: string,
+  events?: Array<number>,
+  first_name?: string,
+  last_name?: string,
+  id?: number
+}

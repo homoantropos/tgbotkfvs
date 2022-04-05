@@ -24,6 +24,8 @@ import { UsersListComponent } from './main/admin_dashboards/users_dashboard/user
 import { SearchPipe } from './shared/pipes/search.pipe';
 import {NgxPaginationModule} from "ngx-pagination";
 import {MatSelectModule} from "@angular/material/select";
+import { SubscribersAdminPageComponent } from './main/admin_dashboards/subscribers_dashboard/subscribers-admin-page/subscribers-admin-page.component';
+import { SubscribersListComponent } from './main/admin_dashboards/subscribers_dashboard/subscribers-list/subscribers-list.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import {MatSelectModule} from "@angular/material/select";
     UserAdminPageComponent,
     ResetPasswordComponent,
     UsersListComponent,
-    SearchPipe
+    SearchPipe,
+    SubscribersAdminPageComponent,
+    SubscribersListComponent
   ],
   imports: [
     FormsModule,

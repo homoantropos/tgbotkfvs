@@ -7,13 +7,17 @@ import {
 } from "./main/admin_dashboards/users_dashboard/user-admin-page/user-admin-page.component";
 import {AuthGuard} from "./shared/auth/auth-guard";
 import {ResetPasswordComponent} from "./shared/components/reset-password/reset-password.component";
+import {
+  SubscribersAdminPageComponent
+} from "./main/admin_dashboards/subscribers_dashboard/subscribers-admin-page/subscribers-admin-page.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'main', pathMatch: 'full'},
   {path: 'main', component: MainPageComponent, children: [
       {path: 'login', component: LoginPageComponent},
       {path: 'users', canActivate: [AuthGuard], component: UserAdminPageComponent},
-      {path: 'updatepass', component: ResetPasswordComponent}
+      {path: 'updatepass', component: ResetPasswordComponent},
+      {path: 'subscribers', canActivate: [AuthGuard], component: SubscribersAdminPageComponent}
     ]}
 ];
 

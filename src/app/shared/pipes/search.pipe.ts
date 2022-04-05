@@ -11,7 +11,7 @@ export class SearchPipe implements PipeTransform {
       return list;
     }
     if (searchField.length === 1){
-      return list.filter(a => a[searchField[0]].toLowerCase().includes(searchValue.toLowerCase()));
+      return list.filter(a => a[searchField[0]].toString().toLowerCase().includes(searchValue.toString().toLowerCase()));
     }
     if (searchField.length === 2){
       return list.filter(a => a[searchField[0]][searchField[1]].toLowerCase().includes(searchValue.toLowerCase()));

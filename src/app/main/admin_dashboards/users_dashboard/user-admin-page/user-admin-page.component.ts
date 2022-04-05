@@ -13,7 +13,6 @@ export class UserAdminPageComponent implements OnInit {
   // @ts-ignore
   users: Array<User>;
 
-  searchOption = true;
   searchValue = '';
   searchField = ['email'];
 
