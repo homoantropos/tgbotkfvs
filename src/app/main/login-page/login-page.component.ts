@@ -44,8 +44,7 @@ export class LoginPageComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.email, Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      role: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     })
     if (this.loginForm.controls['email'] !== undefined) {
       setTimeout(() =>
@@ -54,7 +53,7 @@ export class LoginPageComponent implements OnInit {
     }
   }
 
-  onSubmit(email: string, password: string, role: string): void {
+  onSubmit(email: string, password: string): void {
     if (this.loginForm.invalid) {
       return;
     }
@@ -62,8 +61,7 @@ export class LoginPageComponent implements OnInit {
     this.submitted = true;
     const user: User = {
       email,
-      password,
-      role
+      password
     };
     this.aSub = this.auth.login(user)
       .subscribe(

@@ -6,7 +6,7 @@
   <form
     class="col-sm-12 centerHorizontal formContainer"
     [formGroup]="loginForm"
-    (ngSubmit)="onSubmit(loginForm.controls['email'].value, loginForm.controls['password'].value, loginForm.controls['role'].value)"
+    (ngSubmit)="onSubmit(loginForm.controls['email'].value, loginForm.controls['password'].value)"
   >
 
     <div class="alert info" *ngIf="message">
@@ -27,20 +27,6 @@
       <small class="error" *ngIf="loginForm.controls['email'].errors['required']">поле повинно бути заповнене</small>
       <small class="error" *ngIf="loginForm.controls['email'].errors['email']">введіть коректну адресу електронної
         пошти</small>
-    </div>
-
-    <mat-form-field class="col-sm-12 centerHorizontal">
-    <mat-label>role:</mat-label>
-    <input
-      matInput
-      name="role"
-      title="for role"
-      type="text"
-      formControlName="role"
-    >
-    </mat-form-field>
-    <div *ngIf="loginForm.controls['role'].touched && loginForm.controls['role'].errors">
-      <small class="error" *ngIf="loginForm.controls['role'].errors['required']">поле повинно бути заповнене</small>
     </div>
 
     <mat-form-field class="col-sm-12 centerHorizontal">
