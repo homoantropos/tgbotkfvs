@@ -59,6 +59,12 @@ h1, h2, h3, h4, h5 {
   transform: translate(0, -50%);
 }
 
+.centerHorizontalAbsolute {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+
 .centerHorizontal {
   position: relative;
   left: 50%;
