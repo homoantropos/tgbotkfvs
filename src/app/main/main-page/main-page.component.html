@@ -6,6 +6,10 @@
     <button mat-menu-item routerLink="" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">
       <p>Головна</p>
     </button>
+    <button mat-menu-item routerLink="users" routerLinkActive="active">
+      <p>користувачі</p>
+    </button>
+
     <button mat-menu-item (click)="goToAdminPage()" routerLinkActive="active">
       <p>admin</p>
     </button>
@@ -25,7 +29,7 @@
       title="вихід"
       mat-icon-button
       class="m-r-1">
-      <mat-icon>logout</mat-icon>
+      <mat-icon (click)="auth.logOut()">logout</mat-icon>
     </button>
   </div>
 

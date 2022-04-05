@@ -8,7 +8,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import {AuthService} from "./auth.service";
-import {AlertService} from "../alert.service";
+import {AlertService} from "../services/alert.-service";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     if (this.auth.isAuthenticated()) {
       return true;
     } else {
-      this.router.navigate(['login'], {
+      this.router.navigate(['main', 'login'], {
         queryParams: {
           loginFailed: true
         }

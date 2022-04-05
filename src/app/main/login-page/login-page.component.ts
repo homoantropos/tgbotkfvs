@@ -89,7 +89,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   resetPassword(): void {
-    this.router.navigate(['updatepass']);
+    this.router.navigate(['main', 'updatepass']);
   }
 
   changePasswordInputType(): void {

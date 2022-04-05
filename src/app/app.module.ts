@@ -18,6 +18,12 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./shared/auth/auth.interceptor";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import { UserAdminPageComponent } from './main/admin_dashboards/users_dashboard/user-admin-page/user-admin-page.component';
+import { ResetPasswordComponent } from './shared/components/reset-password/reset-password.component';
+import { UsersListComponent } from './main/admin_dashboards/users_dashboard/users-list/users-list.component';
+import { SearchPipe } from './shared/pipes/search.pipe';
+import {NgxPaginationModule} from "ngx-pagination";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -25,7 +31,11 @@ import {MatInputModule} from "@angular/material/input";
     AlertComponent,
     MainPageComponent,
     LoginPageComponent,
-    LoaderComponent
+    LoaderComponent,
+    UserAdminPageComponent,
+    ResetPasswordComponent,
+    UsersListComponent,
+    SearchPipe
   ],
   imports: [
     FormsModule,
@@ -40,7 +50,9 @@ import {MatInputModule} from "@angular/material/input";
     MatButtonModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    NgxPaginationModule,
+    MatSelectModule
   ],
   providers: [    {
     provide: HTTP_INTERCEPTORS,
