@@ -13,7 +13,7 @@ export class SubscribersAdminPageComponent implements OnInit {
   subscribers: Array<Subscriber>;
 
   searchValue = '';
-  searchField = ['id'];
+  searchField = ['tgId'];
 
   constructor(
     private subsService: SubscriberService,
