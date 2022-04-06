@@ -15,3 +15,11 @@ export interface Subscriber {
   status?: string,
   id?: number
 }
+
+export interface Occasion {
+  name: string,
+  date: Date,
+  description: string,
+  posterSrc?: string,
+  id?: number
+}
