@@ -12,5 +12,6 @@ export interface Subscriber {
   events?: Array<number>,
   first_name?: string,
   last_name?: string,
+  status?: string,
   id?: number
 }
