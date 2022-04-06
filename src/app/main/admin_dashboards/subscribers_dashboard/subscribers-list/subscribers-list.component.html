@@ -16,6 +16,9 @@
     <th (click)="sortTable(['last_name'])"
         [innerHTML]="sortDirection ? 'last_name &#8595;' : 'last_name &#8593;'"
         class="sortArrow"></th>
+    <th (click)="sortTable(['status'])"
+        [innerHTML]="sortDirection ? 'status &#8595;' : 'status &#8593;'"
+        class="sortArrow"></th>
   </tr>
   </thead>
   <tbody>

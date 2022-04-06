@@ -23,3 +23,8 @@ export class MainPageComponent implements OnInit {
   }
 
 }
+
+
+/*TODO
+1. Додати інтерфейс акція (подія).
+*/

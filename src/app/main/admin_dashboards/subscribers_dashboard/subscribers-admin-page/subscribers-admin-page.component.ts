@@ -23,9 +23,21 @@ export class SubscribersAdminPageComponent implements OnInit {
   ngOnInit(): void {
     this.subsService.getAllSubscribers()
       .subscribe(
-        subscribers => this.subscribers = subscribers.slice(),
+        subscribers => {
+          this.subscribers = subscribers.slice();
+          console.log(subscribers);
+        },
           error => this.alert.danger(error.error.message)
       )
   }
 
 }
+
+/*TODO
+1. Функціонал блокування та деблокування підписників;
+2. Функціональ надсилання текстових повідомлень;
+3. Функціонал надсилання картинок;
+4. Функціонал надсилання аудіозаписів;
+5. Функціонал надсилання стікерів;
+6. Функціонал надсилання відео.
+*/
