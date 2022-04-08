@@ -10,6 +10,9 @@ import {ResetPasswordComponent} from "./shared/components/reset-password/reset-p
 import {
   SubscribersAdminPageComponent
 } from "./main/admin_dashboards/subscribers_dashboard/subscribers-admin-page/subscribers-admin-page.component";
+import {
+  OccasionsAdminPageComponent
+} from "./main/admin_dashboards/occasions_dashboard/occasions-admin-page/occasions-admin-page.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'main', pathMatch: 'full'},
@@ -17,7 +20,8 @@ const routes: Routes = [
       {path: 'login', component: LoginPageComponent},
       {path: 'users', canActivate: [AuthGuard], component: UserAdminPageComponent},
       {path: 'updatepass', component: ResetPasswordComponent},
-      {path: 'subscribers', canActivate: [AuthGuard], component: SubscribersAdminPageComponent}
+      {path: 'subscribers', canActivate: [AuthGuard], component: SubscribersAdminPageComponent},
+      {path: 'occasions', canActivate: [AuthGuard], component: OccasionsAdminPageComponent}
     ]}
 ];
 

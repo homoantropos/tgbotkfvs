@@ -26,6 +26,9 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {MatSelectModule} from "@angular/material/select";
 import { SubscribersAdminPageComponent } from './main/admin_dashboards/subscribers_dashboard/subscribers-admin-page/subscribers-admin-page.component';
 import { SubscribersListComponent } from './main/admin_dashboards/subscribers_dashboard/subscribers-list/subscribers-list.component';
+import { OccasionsAdminPageComponent } from './main/admin_dashboards/occasions_dashboard/occasions-admin-page/occasions-admin-page.component';
+import { OccasionsListComponent } from './main/admin_dashboards/occasions_dashboard/occasions-list/occasions-list.component';
+import { OccasionsEditorComponent } from './main/admin_dashboards/occasions_dashboard/occasions-editor/occasions-editor.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { SubscribersListComponent } from './main/admin_dashboards/subscribers_da
     UsersListComponent,
     SearchPipe,
     SubscribersAdminPageComponent,
-    SubscribersListComponent
+    SubscribersListComponent,
+    OccasionsAdminPageComponent,
+    OccasionsListComponent,
+    OccasionsEditorComponent
   ],
   imports: [
     FormsModule,

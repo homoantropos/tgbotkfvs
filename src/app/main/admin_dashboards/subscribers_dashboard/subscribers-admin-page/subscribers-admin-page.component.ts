@@ -25,7 +25,6 @@ export class SubscribersAdminPageComponent implements OnInit {
       .subscribe(
         subscribers => {
           this.subscribers = subscribers.slice();
-          console.log(subscribers);
         },
           error => this.alert.danger(error.error.message)
       )
