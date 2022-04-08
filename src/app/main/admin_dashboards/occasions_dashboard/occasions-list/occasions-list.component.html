@@ -1,0 +1,65 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th (click)="sortTable(['id'])"
+        [innerHTML]="sortDirection ? 'id &#8595;' : 'id &#8593;'"
+        class="sortArrow">
+    </th>
+    <th (click)="sortTable(['name'])"
+        [innerHTML]="sortDirection ? 'name &#8595;' : 'name &#8593;'"
+        class="sortArrow">
+    </th>
+    <th (click)="sortTable(['date'])"
+        [innerHTML]="sortDirection ? 'date &#8595;' : 'date &#8593;'"
+        class="sortArrow">
+    </th>
+    <th>
+      edit
+    </th>
+    <th>
+      delete
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let occasion of occasions |
+  paginate: { itemsPerPage: itemsPerPage, currentPage: paginatorStartPageNumber }">
+    <td>{{occasion.id}}</td>
+    <td>{{occasion.name}}</td>
+    <td>{{occasion.date | date : 'dd.MM.YYYY'}}</td>
+    <td>
+      <mat-icon *ngIf="occasion.id" (click)="goToSectionEditor(occasion)" class="pointer">
+        edit
+      </mat-icon>
+    </td>
+    <td>
+      <mat-icon *ngIf="occasion.id" (click)="callDeletion(occasion.id)" class="pointer">
+        delete
+      </mat-icon>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<div>
+  <div class="paginatorSelect">
+    <small>
+      рядків на сторінці:
+    </small>
+    <mat-select
+      [(ngModel)]="itemsPerPage"
+    >
+      <mat-option value=5>5</mat-option>
+      <mat-option value=10>10</mat-option>
+      <mat-option value=15>15</mat-option>
+    </mat-select>
+  </div>
+  <pagination-controls
+    class="my-pagination"
+    (pageChange)="paginatorStartPageNumber = $event"
+    previousLabel="назад"
+    nextLabel="уперед"
+  ></pagination-controls>
+</div>
+
+
+

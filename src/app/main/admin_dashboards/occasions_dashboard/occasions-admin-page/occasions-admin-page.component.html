@@ -1,0 +1,47 @@
+<div class="col-sm-2 m-a-0 p-a-1 centerDiv">
+  <div class="centerHorizontal">
+    <mat-form-field>
+      <mat-label>пошук ...</mat-label>
+      <input matInput
+             title="nameInput"
+             type="text"
+             #nameInput
+             [(ngModel)]="searchValue"
+      >
+    </mat-form-field>
+
+    <button
+      *ngIf="nameInput.value.trim().length > 0"
+      mat-button color="primary"
+      (click)="searchValue = ''"
+    >
+      скинути
+    </button>
+  </div>
+
+</div>
+
+<div class="col-sm-8 m-a-0 scroll">
+  <ng-container *ngIf="occasions; else loader">
+    <ng-container *ngIf="occasions.length > 0; else emptyList">
+      <app-occasions-list
+        [occasions]="occasions | search : searchValue : searchField"
+      ></app-occasions-list>
+    </ng-container>
+    <ng-template #emptyList>
+      <h2>Календар порожній</h2>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #loader>
+    <app-loader></app-loader>
+  </ng-template>
+</div>
+
+<div class="col-sm-2 m-a-0">
+
+</div>
+
+
+
+
