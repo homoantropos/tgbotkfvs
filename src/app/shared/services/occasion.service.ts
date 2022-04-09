@@ -14,7 +14,7 @@ export class OccasionService {
     private http: HttpClient
   ) { }
 
-  createOccasion(occasion: Occasion, image?: File): Observable<Occasion> {
+  createOccasion(occasion: Occasion, image?: File): Observable<{message: string, occasion: Occasion}> {
     const fd = new FormData();
     Object.keys(occasion).map(
       key => fd.set(key, occasion[key])
@@ -22,10 +22,10 @@ export class OccasionService {
     if(image) {
       fd.append('image', image, image.name);
     }
-    return this.http.post<Occasion>(`${environment.backURI}/occasions/create`, fd);
+    return this.http.post<{message: string, occasion: Occasion}>(`${environment.backURI}/occasions/create`, fd);
   }
 
-  updateOccasion(occasion: Occasion, image?: File): Observable<Occasion> {
+  updateOccasion(occasion: Occasion, image?: File): Observable<{message: string, occasion: Occasion}> {
     const fd = new FormData();
     Object.keys(occasion).map(
       key => fd.set(key, occasion[key])
@@ -33,7 +33,11 @@ export class OccasionService {
     if(image) {
       fd.append('image', image, image.name);
     }
-    return this.http.patch<Occasion>(`${environment.backURI}/occasions/${occasion.id}`, fd);
+    return this.http.patch<{message: string, occasion: Occasion}>(`${environment.backURI}/occasions/${occasion.id}`, fd);
+  }
+
+  deleteOccasion(id: number): Observable<{message: string}> {
+    return this.http.delete<{message: string}>(`${environment.backURI}/occasions/${id}`)
   }
 
   getAllOccasions(): Observable<Array<Occasion>> {

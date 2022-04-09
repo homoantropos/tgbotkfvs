@@ -67,4 +67,10 @@
 </div>
 
 
+<app-deletion-confirmer
+  [show]="showDeleteConfirmation"
+  [option]="option"
+  (confirm)="onDelete($event)"
+></app-deletion-confirmer>
+
 

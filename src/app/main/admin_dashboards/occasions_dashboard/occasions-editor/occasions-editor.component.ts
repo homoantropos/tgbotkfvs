@@ -142,9 +142,10 @@ export class OccasionsEditorComponent implements OnInit, OnDestroy {
     }
     this.oSub = occasionServiceMethod
       .subscribe(
-        occasion => {
-          this.occasionId = occasion.id;
-          this.router.navigateByUrl(`main/occasions/edit/${occasion.id}`);
+        occasionAndMessage => {
+          this.alert.success(occasionAndMessage.message);
+          this.occasionId = occasionAndMessage.occasion.id;
+          this.router.navigateByUrl(`main/occasions/edit/${this.occasionId}`);
           this.occasionForm.enable();
           this.submitted = false;
         }, error => {

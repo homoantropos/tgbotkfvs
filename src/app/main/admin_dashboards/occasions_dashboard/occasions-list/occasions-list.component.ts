@@ -1,7 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Occasion, Subscriber} from "../../../../shared/interfaces";
+import {Occasion} from "../../../../shared/interfaces";
 import {TableSortService} from "../../../../shared/services/table-sort.service";
 import {Router} from "@angular/router";
+import {AlertService} from "../../../../shared/services/alert.-service";
+import {OccasionService} from "../../../../shared/services/occasion.service";
 
 @Component({
   selector: 'app-occasions-list',
@@ -21,9 +23,14 @@ export class OccasionsListComponent implements OnInit {
 
   @Output() showButton: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  showDeleteConfirmation = false;
+  option = 'подію';
+
   constructor(
     private router: Router,
-    private sortService: TableSortService
+    private sortService: TableSortService,
+    private alert: AlertService,
+    private occasionService: OccasionService
   ) {
   }
 
@@ -35,7 +42,28 @@ export class OccasionsListComponent implements OnInit {
   }
 
   callDeletion(id: number): void {
+    this.showDeleteConfirmation = true;
+    this.occasionId = id;
+  }
 
+  onDelete(confirm: boolean): void {
+    if (confirm) {
+      this.occasionService.deleteOccasion(this.occasionId)
+        .subscribe(
+          (response: {message: string}) => {
+            this.alert.success(response.message);
+            this.showDeleteConfirmation = false;
+            this.showButton.emit(false);
+            this.occasions = this.occasions.filter(occasion => occasion.id !== this.occasionId);
+          },
+          error => {
+            this.alert.danger(error.error.message ? error.error.message : error);
+          }
+        );
+    } else {
+      this.showDeleteConfirmation = false;
+      this.alert.warning('Видалення скасованою');
+    }
   }
 
   sortTable(sortOption: any): void {
