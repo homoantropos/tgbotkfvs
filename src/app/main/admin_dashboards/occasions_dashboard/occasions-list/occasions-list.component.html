@@ -9,8 +9,8 @@
         [innerHTML]="sortDirection ? 'name &#8595;' : 'name &#8593;'"
         class="sortArrow">
     </th>
-    <th (click)="sortTable(['date'])"
-        [innerHTML]="sortDirection ? 'date &#8595;' : 'date &#8593;'"
+    <th (click)="sortTable(['start'])"
+        [innerHTML]="sortDirection ? 'start &#8595;' : 'start &#8593;'"
         class="sortArrow">
     </th>
     <th (click)="sortTable(['maxSubsNumber'])"
@@ -30,7 +30,7 @@
   paginate: { itemsPerPage: itemsPerPage, currentPage: paginatorStartPageNumber }">
     <td>{{occasion.id}}</td>
     <td>{{occasion.name}}</td>
-    <td>{{occasion.date | date : 'dd.MM.YYYY'}}</td>
+    <td>{{occasion.start | date : 'dd.MM.YYYY'}}</td>
     <td>{{occasion.maxSubsNumber}}</td>
     <td>
       <mat-icon *ngIf="occasion.id" (click)="goToSectionEditor(occasion)" class="pointer">

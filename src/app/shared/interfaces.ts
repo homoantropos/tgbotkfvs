@@ -18,7 +18,7 @@ export interface Subscriber {
 
 export interface Occasion {
   name: string,
-  date: Date,
+  start: Date,
   description: string,
   maxSubsNumber: number,
   posterSrc?: string,
