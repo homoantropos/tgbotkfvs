@@ -13,6 +13,10 @@
         [innerHTML]="sortDirection ? 'date &#8595;' : 'date &#8593;'"
         class="sortArrow">
     </th>
+    <th (click)="sortTable(['maxSubsNumber'])"
+        [innerHTML]="sortDirection ? 'макс. підписок &#8595;' : 'макс. підписок &#8593;'"
+        class="sortArrow">
+    </th>
     <th>
       edit
     </th>
@@ -27,6 +31,7 @@
     <td>{{occasion.id}}</td>
     <td>{{occasion.name}}</td>
     <td>{{occasion.date | date : 'dd.MM.YYYY'}}</td>
+    <td>{{occasion.maxSubsNumber}}</td>
     <td>
       <mat-icon *ngIf="occasion.id" (click)="goToSectionEditor(occasion)" class="pointer">
         edit

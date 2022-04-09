@@ -25,7 +25,6 @@ export class OccasionsAdminPageComponent implements OnInit {
       .subscribe(
         occasions => {
           this.occasions = occasions.slice();
-          console.log(this.occasions);
         }, error => this.alert.danger(
           error.erro.message ? error.erro.message : error)
       )

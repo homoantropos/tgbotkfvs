@@ -20,6 +20,7 @@ export interface Occasion {
   name: string,
   date: Date,
   description: string,
+  maxSubsNumber: number,
   posterSrc?: string,
   id?: number
 }
