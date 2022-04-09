@@ -16,7 +16,7 @@ export class MainPageComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   goToAdminPage(): void {
     this.router.navigate(['admin']);

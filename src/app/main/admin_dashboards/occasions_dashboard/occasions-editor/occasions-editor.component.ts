@@ -128,7 +128,7 @@ export class OccasionsEditorComponent implements OnInit, OnDestroy {
     this.submitted = true;
     const createdOccasion: Occasion = {
       name: formValue.name.trim(),
-      start: new Date(formValue.start),
+      start: formValue.start,
       description: formValue.description,
       maxSubsNumber: formValue.maxSubsNumber,
       posterSrc: formValue.posterSrc
