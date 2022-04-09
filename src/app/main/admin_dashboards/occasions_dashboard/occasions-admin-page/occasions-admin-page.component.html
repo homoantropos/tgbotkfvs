@@ -1,13 +1,12 @@
-<button mat-button color="primary"
-        [ngStyle]="{marginTop:'10px'}"
-        type="button"
-        (click)="goToOccasionEditor()"
-        *ngIf="showButton">
-  Додати тренера
-</button>
-
 <div class="col-sm-2 m-a-0 p-a-1 centerDiv">
   <div class="centerHorizontal">
+    <button mat-button color="primary"
+            class="m-t-1 col-sm-12"
+            type="button"
+            (click)="goToOccasionEditor()"
+    >
+      Додати подію
+    </button>
     <mat-form-field>
       <mat-label>пошук ...</mat-label>
       <input matInput

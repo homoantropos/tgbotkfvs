@@ -33,7 +33,7 @@
     <td>{{occasion.start | date : 'dd.MM.YYYY'}}</td>
     <td>{{occasion.maxSubsNumber}}</td>
     <td>
-      <mat-icon *ngIf="occasion.id" (click)="goToSectionEditor(occasion)" class="pointer">
+      <mat-icon *ngIf="occasion.id" (click)="goToOccasionEditor(occasion.id)" class="pointer">
         edit
       </mat-icon>
     </td>

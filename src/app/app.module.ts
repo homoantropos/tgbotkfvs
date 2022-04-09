@@ -24,11 +24,18 @@ import { UsersListComponent } from './main/admin_dashboards/users_dashboard/user
 import { SearchPipe } from './shared/pipes/search.pipe';
 import {NgxPaginationModule} from "ngx-pagination";
 import {MatSelectModule} from "@angular/material/select";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS,
+  MatMomentDateModule,
+  MomentDateAdapter
+} from '@angular/material-moment-adapter';
 import { SubscribersAdminPageComponent } from './main/admin_dashboards/subscribers_dashboard/subscribers-admin-page/subscribers-admin-page.component';
 import { SubscribersListComponent } from './main/admin_dashboards/subscribers_dashboard/subscribers-list/subscribers-list.component';
 import { OccasionsAdminPageComponent } from './main/admin_dashboards/occasions_dashboard/occasions-admin-page/occasions-admin-page.component';
 import { OccasionsListComponent } from './main/admin_dashboards/occasions_dashboard/occasions-list/occasions-list.component';
 import { OccasionsEditorComponent } from './main/admin_dashboards/occasions_dashboard/occasions-editor/occasions-editor.component';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -62,13 +69,19 @@ import { OccasionsEditorComponent } from './main/admin_dashboards/occasions_dash
     MatFormFieldModule,
     MatInputModule,
     NgxPaginationModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatMomentDateModule
   ],
   providers: [    {
     provide: HTTP_INTERCEPTORS,
     multi: true,
     useClass: AuthInterceptor
-  }],
+  },
+    {provide: MAT_DATE_LOCALE, useValue: 'uk'}, {provide: MAT_DATE_LOCALE, useValue: 'uk'},
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+    {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

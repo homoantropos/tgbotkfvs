@@ -1,1 +1,100 @@
-<p>occasions-editor works!</p>
+<div *ngIf="occasionForm; else loader">
+
+  <div class="formTitle m-t-2">
+    <p><b>{{createOrEditLabelName}}</b></p>
+  </div>
+
+  <form
+    class="col-sm-12 m-a-0 centerHorizontal formContainer w500"
+    [formGroup]="occasionForm"
+    (ngSubmit)="onSubmit(occasionForm.value)"
+  >
+    <mat-form-field>
+      <mat-label>назва події:</mat-label>
+      <input
+        matInput
+        type="text"
+        #nameInput
+        formControlName="name"
+      >
+    </mat-form-field>
+    <div *ngIf="occasionForm.controls['name'].touched && occasionForm.controls['name'].errors">
+      <small class="error" *ngIf="occasionForm.controls['name'].errors['required']">поле повинно бути заповнене</small>
+    </div>
+
+    <mat-form-field>
+      <mat-label></mat-label>
+      <textarea
+        name="description"
+        id="" cols="30"
+        rows="10"
+        matInput
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
+    <div *ngIf="occasionForm.controls['description'].touched && occasionForm.controls['description'].errors">
+      <small class="error" *ngIf="occasionForm.controls['description'].errors['required']">поле повинно бути заповнене</small>
+    </div>
+
+    <mat-form-field class="col-sm-6">
+      <mat-label>дата початку:</mat-label>
+      <input matInput [min]="today" [matDatepicker]="$any(start)" formControlName="start">
+      <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+      <mat-datepicker #start></mat-datepicker>
+    </mat-form-field>
+    <div *ngIf="occasionForm.controls['start'].touched && occasionForm.controls['start'].errors">
+      <small class="error" *ngIf="occasionForm.controls['start'].errors['required']">поле повинно бути заповнене</small>
+    </div>
+
+    <mat-form-field class="col-sm-6">
+      <mat-label>максимальна кількість підписників:</mat-label>
+      <input matInput type="number" [min]="0" formControlName="maxSubsNumber">
+    </mat-form-field>
+    <div *ngIf="occasionForm.controls['maxSubsNumber'].touched && occasionForm.controls['maxSubsNumber'].errors">
+      <small class="error" *ngIf="occasionForm.controls['maxSubsNumber'].errors['required']">поле повинно бути заповнене</small>
+    </div>
+
+    <div *ngIf="posterSrc">
+      <img class="h120" [src]="posterSrc" alt="profile picture"/>
+    </div>
+
+    <input
+      type="file"
+      class="dn"
+      (change)="loadPosterLoaderPreview($event)"
+      #posterLoader
+    >
+
+    <button mat-button
+            class="col-sm-12"
+            color="accent"
+            [disabled]="occasionForm.invalid || submitted"
+            (click)="clickProfilePictureSrcInput($event)"
+    >
+      додати аватар
+    </button>
+
+    <button mat-button
+            class="col-sm-6"
+            color="primary"
+            type="button"
+            [disabled]="occasionForm.invalid || submitted"
+            (click)="goToMainPage()"
+    >
+      Скасувати
+    </button>
+
+    <button
+      mat-raised-button
+      class="col-sm-6"
+      type="submit"
+      color="primary"
+      [disabled]="occasionForm.invalid || submitted"
+    >{{buttonName}}</button>
+  </form>
+</div>
+
+
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>

@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Occasion, Subscriber} from "../../../../shared/interfaces";
 import {TableSortService} from "../../../../shared/services/table-sort.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-occasions-list',
@@ -21,6 +22,7 @@ export class OccasionsListComponent implements OnInit {
   @Output() showButton: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
+    private router: Router,
     private sortService: TableSortService
   ) {
   }
@@ -28,8 +30,8 @@ export class OccasionsListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  goToSectionEditor(occasion: Occasion): void {
-
+  goToOccasionEditor(id: number): void {
+    this.router.navigateByUrl(`main/occasions/edit/${id}`);
   }
 
   callDeletion(id: number): void {

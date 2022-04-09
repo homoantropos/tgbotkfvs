@@ -13,9 +13,6 @@ export class OccasionsAdminPageComponent implements OnInit {
 
   occasions: Array<Occasion>;
 
-  showButton = true;
-
-  searchOption = true;
   searchValue = '';
   searchField = ['name'];
 
@@ -39,7 +36,7 @@ export class OccasionsAdminPageComponent implements OnInit {
   }
 
   goToOccasionEditor(): void {
-
+    this.router.navigate(['main', 'occasions', 'create']);
   }
 
 }
