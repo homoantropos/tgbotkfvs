@@ -5,7 +5,6 @@ import {OccasionService} from "../../../../shared/services/occasion.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {Subscription, switchMap} from "rxjs";
 import {AlertService} from "../../../../shared/services/alert.-service";
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-occasions-editor',
