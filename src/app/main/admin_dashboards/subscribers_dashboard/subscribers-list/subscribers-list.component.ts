@@ -1,14 +1,16 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Subscriber} from "../../../../shared/interfaces";
 import {TableSortService} from "../../../../shared/services/table-sort.service";
+import {MessageService} from "../../../../shared/services/message.service";
+import {Router} from "@angular/router";
 
-  @Component({
-    selector: 'app-subscribers-list',
-    templateUrl: './subscribers-list.component.html',
-    styleUrls: ['./subscribers-list.component.css']
-  })
+@Component({
+  selector: 'app-subscribers-list',
+  templateUrl: './subscribers-list.component.html',
+  styleUrls: ['./subscribers-list.component.css']
+})
 
-  export class SubscribersListComponent implements OnInit {
+export class SubscribersListComponent implements OnInit {
 
   @Input() subscribers: Array<Subscriber> = [];
 
@@ -21,31 +23,33 @@ import {TableSortService} from "../../../../shared/services/table-sort.service";
 
   @Output() showButton: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    recipients: Array<number> = [];
-    showMessenger = false;
-    showSendButton = false;
+  showSendButton = false;
 
-    constructor(
-    private sortService: TableSortService
-  ) { }
+  constructor(
+    private router: Router,
+    private sortService: TableSortService,
+    private messageService: MessageService
+  ) {
+  }
 
   ngOnInit(): void {
   }
 
   selectRecipients(tgId?: number): void {
-      if(tgId) {
-        this.recipients.push(tgId);
-      } else {
-        this.subscribers.map(
-          subscriber => this.recipients.push(subscriber.tgId)
-        )
-      }
-      this.showSendButton = true;
+    if (tgId) {
+      this.messageService.recipients.push(tgId);
+    } else {
+      this.subscribers.map(
+        subscriber => {
+          this.messageService.recipients.push(subscriber.tgId);
+        }
+      )
+    }
+    this.showSendButton = true;
   }
 
-  showOrHideMessenger(condition: boolean): void {
-    this.showMessenger = condition;
-    this.showSendButton = condition;
+  goToMessenger(): void {
+    this.router.navigate(['main', 'sendMessage']);
   }
 
   sortTable(sortOption: any): void {

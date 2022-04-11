@@ -2,7 +2,7 @@
   class="col-sm-12 pointer"
   *ngIf="showSendButton"
   mat-button color="primary"
-  (click)="showOrHideMessenger(true)"
+  (click)="goToMessenger()"
 >
   send message
 </button>
@@ -76,10 +76,5 @@
   ></pagination-controls>
 </div>
 
-<app-messenger
-  (closeMessenger)="showOrHideMessenger($event)"
-  [recipients]="recipients"
-  *ngIf="showMessenger"
-></app-messenger>
 
 

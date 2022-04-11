@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MessageService} from "../../services/message.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -15,8 +15,6 @@ export class MessengerComponent implements OnInit, OnDestroy {
   messageForm: FormGroup;
   submitted = false;
 
-  @Input() recipients: Array<number>;
-  @Output() closeMessenger: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild('textInput') textInput: ElementRef<HTMLInputElement>;
 
   mSub: Subscription;
@@ -45,17 +43,18 @@ export class MessengerComponent implements OnInit, OnDestroy {
       return
     }
     const body = {
-      tgIds: this.recipients,
+      tgIds: this.messageService.recipients,
       text: value.text,
       method: value.method
     };
     this.submitted = true;
     this.mSub = this.messageService.sendMessage(body).subscribe(
       response => {
-        this.messageForm.reset();
         this.alert.success(response.message);
+        this.messageForm.reset();
+        this.messageService.recipients.splice(0);
         this.submitted = false;
-        this.closeMessenger.emit(false);
+        this.router.navigate(['main', 'subscribers']);
       },
       error => {
         this.alert.danger(error);
@@ -65,12 +64,14 @@ export class MessengerComponent implements OnInit, OnDestroy {
   }
 
   close(): void {
-    this.closeMessenger.emit(false);
+    this.messageService.recipients.splice(0);
+    this.router.navigate(['main', 'subscribers']);
   }
 
   ngOnDestroy(): void {
     if(this.mSub) {
       this.mSub.unsubscribe();
     }
+    this.messageService.recipients.splice(0);
   }
 }
