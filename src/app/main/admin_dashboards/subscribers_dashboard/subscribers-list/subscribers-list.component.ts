@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Subscriber} from "../../../../shared/interfaces";
 import {TableSortService} from "../../../../shared/services/table-sort.service";
 import {MessageService} from "../../../../shared/services/message.service";
@@ -20,8 +20,6 @@ export class SubscribersListComponent implements OnInit {
   sortDirection = true;
 
   userId = 0;
-
-  @Output() showButton: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   showSendButton = false;
 
