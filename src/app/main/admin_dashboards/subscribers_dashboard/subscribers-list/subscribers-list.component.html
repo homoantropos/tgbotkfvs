@@ -1,3 +1,12 @@
+<button
+  class="col-sm-12 pointer"
+  *ngIf="showSendButton"
+  mat-button color="primary"
+  (click)="showOrHideMessenger(true)"
+>
+  send message
+</button>
+
 <table class="table table-striped">
   <thead>
   <tr>
@@ -19,6 +28,13 @@
     <th (click)="sortTable(['status'])"
         [innerHTML]="sortDirection ? 'status &#8595;' : 'status &#8593;'"
         class="sortArrow"></th>
+    <th>
+      send message
+      <input
+        type="checkbox"
+        (click)="selectRecipients()"
+      />
+    </th>
   </tr>
   </thead>
   <tbody>
@@ -30,6 +46,12 @@
     <td>{{subscriber.first_name}}</td>
     <td>{{subscriber.last_name}}</td>
     <td>{{subscriber.status}}</td>
+    <td>
+      <input
+        type="checkbox"
+        (click)="selectRecipients(subscriber.tgId)"
+      />
+    </td>
   </tr>
   </tbody>
 </table>
@@ -53,5 +75,11 @@
     nextLabel="уперед"
   ></pagination-controls>
 </div>
+
+<app-messenger
+  (closeMessenger)="showOrHideMessenger($event)"
+  [recipients]="recipients"
+  *ngIf="showMessenger"
+></app-messenger>
 
 

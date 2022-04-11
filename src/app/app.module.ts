@@ -37,6 +37,7 @@ import { OccasionsListComponent } from './main/admin_dashboards/occasions_dashbo
 import { OccasionsEditorComponent } from './main/admin_dashboards/occasions_dashboard/occasions-editor/occasions-editor.component';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 import { DeletionConfirmerComponent } from './shared/components/deletion-confirmer/deletion-confirmer.component';
+import { MessengerComponent } from './shared/components/messenger/messenger.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { DeletionConfirmerComponent } from './shared/components/deletion-confirm
     OccasionsAdminPageComponent,
     OccasionsListComponent,
     OccasionsEditorComponent,
-    DeletionConfirmerComponent
+    DeletionConfirmerComponent,
+    MessengerComponent
   ],
   imports: [
     FormsModule,

@@ -21,11 +21,31 @@ import {TableSortService} from "../../../../shared/services/table-sort.service";
 
   @Output() showButton: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(
+    recipients: Array<number> = [];
+    showMessenger = false;
+    showSendButton = false;
+
+    constructor(
     private sortService: TableSortService
   ) { }
 
   ngOnInit(): void {
+  }
+
+  selectRecipients(tgId?: number): void {
+      if(tgId) {
+        this.recipients.push(tgId);
+      } else {
+        this.subscribers.map(
+          subscriber => this.recipients.push(subscriber.tgId)
+        )
+      }
+      this.showSendButton = true;
+  }
+
+  showOrHideMessenger(condition: boolean): void {
+    this.showMessenger = condition;
+    this.showSendButton = condition;
   }
 
   sortTable(sortOption: any): void {
