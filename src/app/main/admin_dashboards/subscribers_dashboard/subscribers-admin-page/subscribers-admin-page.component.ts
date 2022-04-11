@@ -25,29 +25,19 @@ export class SubscribersAdminPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.route.params) {
-      this.route.params
-        .pipe(
-          switchMap(
-            (params: Params) => {
-              return this.subsService.getAllSubscribers(params['id'])
-            }
-          )
-        ).subscribe(
-        subscribers => {
-          this.subscribers = subscribers.slice();
-        },
-        error => this.alert.danger(error.error.message)
-      )
-    } else {
-      this.subsService.getAllSubscribers()
-        .subscribe(
-          subscribers => {
-            this.subscribers = subscribers.slice();
-          },
-          error => this.alert.danger(error.error.message)
+    this.route.params
+      .pipe(
+        switchMap(
+          (params: Params) => {
+            return this.subsService.getAllSubscribers(params['id'])
+          }
         )
-    }
+      ).subscribe(
+      subscribers => {
+        this.subscribers = subscribers.slice();
+      },
+      error => this.alert.danger(error.error.message)
+    )
   }
 
 }
