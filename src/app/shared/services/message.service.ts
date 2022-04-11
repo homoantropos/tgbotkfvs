@@ -9,6 +9,7 @@ import {environment} from "../../../environments/environment";
 export class MessageService {
 
   recipients: Array<number> = [];
+
   constructor(
     private http: HttpClient
   ) { }
