@@ -23,6 +23,7 @@
 
 <div class="col-sm-8 m-a-0 scroll">
   <ng-container *ngIf="subscribers; else loader">
+    <h4>у бота {{subscribers.length}} підписок</h4>
     <ng-container *ngIf="subscribers.length > 0; else emptyList">
       <app-subscribers-list
         [subscribers]="subscribers | search : searchValue : searchField"

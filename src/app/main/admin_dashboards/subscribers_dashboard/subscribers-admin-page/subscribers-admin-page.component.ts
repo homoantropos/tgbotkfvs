@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SubscriberService} from "../../../../shared/services/subscriber.service";
 import {Subscriber} from "../../../../shared/interfaces";
 import {AlertService} from "../../../../shared/services/alert.-service";
+import {ActivatedRoute, Params} from "@angular/router";
+import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-subscribers-admin-page',
@@ -16,18 +18,36 @@ export class SubscribersAdminPageComponent implements OnInit {
   searchField = ['tgId'];
 
   constructor(
+    private route: ActivatedRoute,
     private subsService: SubscriberService,
     private alert: AlertService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
-    this.subsService.getAllSubscribers()
-      .subscribe(
+    if (this.route.params) {
+      this.route.params
+        .pipe(
+          switchMap(
+            (params: Params) => {
+              return this.subsService.getAllSubscribers(params['id'])
+            }
+          )
+        ).subscribe(
         subscribers => {
           this.subscribers = subscribers.slice();
         },
-          error => this.alert.danger(error.error.message)
+        error => this.alert.danger(error.error.message)
       )
+    } else {
+      this.subsService.getAllSubscribers()
+        .subscribe(
+          subscribers => {
+            this.subscribers = subscribers.slice();
+          },
+          error => this.alert.danger(error.error.message)
+        )
+    }
   }
 
 }

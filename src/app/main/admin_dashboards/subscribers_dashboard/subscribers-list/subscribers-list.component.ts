@@ -30,8 +30,7 @@ export class SubscribersListComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   selectRecipients(tgId?: number): void {
     if (tgId) {

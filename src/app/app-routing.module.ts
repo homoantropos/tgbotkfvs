@@ -25,7 +25,12 @@ const routes: Routes = [
       {path: 'login', component: LoginPageComponent},
       {path: 'users', canActivate: [AuthGuard], component: UserAdminPageComponent},
       {path: 'updatepass', component: ResetPasswordComponent},
-      {path: 'subscribers', canActivate: [AuthGuard], component: SubscribersAdminPageComponent},
+      {
+        path: 'subscribers', canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
+          {path: '', component: SubscribersAdminPageComponent},
+          {path: ':id', component: SubscribersAdminPageComponent},
+        ]
+      },
       {path: 'sendMessage', canActivate: [AuthGuard], component: MessengerComponent},
       {
         path: 'occasions', canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [

@@ -13,7 +13,11 @@ export class SubscriberService {
     private http: HttpClient
   ) { }
 
-  getAllSubscribers(): Observable<Array<Subscriber>> {
-    return this.http.get<Array<Subscriber>>(`${environment.backURI}/subscribers`);
+  getAllSubscribers(id?: number): Observable<Array<Subscriber>> {
+    if(id) {
+      return this.http.get<Array<Subscriber>>(`${environment.backURI}/subscribers?occasionId=${id}`);
+    } else {
+      return this.http.get<Array<Subscriber>>(`${environment.backURI}/subscribers`);
+    }
   }
 }

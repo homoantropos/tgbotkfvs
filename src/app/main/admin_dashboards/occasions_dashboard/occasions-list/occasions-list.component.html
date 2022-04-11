@@ -18,6 +18,9 @@
         class="sortArrow">
     </th>
     <th>
+      підписники
+    </th>
+    <th>
       edit
     </th>
     <th>
@@ -32,6 +35,12 @@
     <td>{{occasion.name}}</td>
     <td>{{occasion.start | date : 'dd.MM.YYYY'}}</td>
     <td>{{occasion.maxSubsNumber}}</td>
+    <td>
+      <mat-icon
+        class="pointer"
+        (click)="selectSubsByOccasion(occasion.id)"
+      >group</mat-icon>
+    </td>
     <td>
       <mat-icon *ngIf="occasion.id" (click)="goToOccasionEditor(occasion.id)" class="pointer">
         edit

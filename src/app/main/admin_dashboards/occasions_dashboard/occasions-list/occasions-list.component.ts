@@ -66,6 +66,10 @@ export class OccasionsListComponent implements OnInit {
     }
   }
 
+  selectSubsByOccasion(id: number): void {
+    this.router.navigateByUrl(`main/subscribers/${id}`);
+  }
+
   sortTable(sortOption: any): void {
     this.sortDirection = this.sortService.sortTableByStringValues(sortOption, this.occasions, this.sortDirection);
   }
