@@ -95,7 +95,7 @@ export class OccasionsEditorComponent implements OnInit, OnDestroy {
     return this.fb.group({
         name: [occasion ? occasion.name : '', [Validators.required]],
         start: [occasion ? occasion.start : new Date(), [Validators.required]],
-        description: [occasion ? occasion.description : '', [Validators.required]],
+        description: [occasion ? occasion.description : this.occasionService.defaultDescription, [Validators.required]],
         maxSubsNumber: [occasion ? occasion.maxSubsNumber : '', [Validators.required]],
         posterSrc: [occasion ? occasion.posterSrc : '']
       }

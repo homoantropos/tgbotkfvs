@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Occasion} from "../interfaces";
@@ -10,34 +10,41 @@ import {environment} from "../../../environments/environment";
 
 export class OccasionService {
 
+  defaultDescription = `<i></i>
+<b>терміни: </b><i></i>
+<b>місце: </b><i></i>
+<a href="">докладніше</a>
+`
+
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+  }
 
-  createOccasion(occasion: Occasion, image?: File): Observable<{message: string, occasion: Occasion}> {
+  createOccasion(occasion: Occasion, image?: File): Observable<{ message: string, occasion: Occasion }> {
     const fd = new FormData();
     Object.keys(occasion).map(
       key => fd.set(key, occasion[key])
     )
-    if(image) {
+    if (image) {
       fd.append('image', image, image.name);
     }
-    return this.http.post<{message: string, occasion: Occasion}>(`${environment.backURI}/occasions/create`, fd);
+    return this.http.post<{ message: string, occasion: Occasion }>(`${environment.backURI}/occasions/create`, fd);
   }
 
-  updateOccasion(occasion: Occasion, image?: File): Observable<{message: string, occasion: Occasion}> {
+  updateOccasion(occasion: Occasion, image?: File): Observable<{ message: string, occasion: Occasion }> {
     const fd = new FormData();
     Object.keys(occasion).map(
       key => fd.set(key, occasion[key])
     )
-    if(image) {
+    if (image) {
       fd.append('image', image, image.name);
     }
-    return this.http.patch<{message: string, occasion: Occasion}>(`${environment.backURI}/occasions/${occasion.id}`, fd);
+    return this.http.patch<{ message: string, occasion: Occasion }>(`${environment.backURI}/occasions/${occasion.id}`, fd);
   }
 
-  deleteOccasion(id: number): Observable<{message: string}> {
-    return this.http.delete<{message: string}>(`${environment.backURI}/occasions/${id}`)
+  deleteOccasion(id: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${environment.backURI}/occasions/${id}`)
   }
 
   getAllOccasions(): Observable<Array<Occasion>> {
