@@ -30,9 +30,7 @@ export class SubscribersListComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-    console.log(this.subscribers);
-  }
+  ngOnInit(): void { }
 
   selectRecipients(tgId?: number): void {
     if (tgId) {
@@ -55,4 +53,3 @@ export class SubscribersListComponent implements OnInit {
     this.sortDirection = this.sortService.sortTableByStringValues(sortOption, this.subscribers, this.sortDirection);
   }
 }
-
