@@ -9,7 +9,7 @@ export interface User {
 export interface Subscriber {
   tgId: number,
   username: string,
-  events?: Array<number>,
+  occasions?: Array<Occasion>,
   first_name?: string,
   last_name?: string,
   status?: string,
@@ -21,6 +21,7 @@ export interface Occasion {
   start: Date,
   description: string,
   maxSubsNumber: number,
+  subscribers?: Array<Subscriber>,
   posterSrc?: string,
   id?: number
 }

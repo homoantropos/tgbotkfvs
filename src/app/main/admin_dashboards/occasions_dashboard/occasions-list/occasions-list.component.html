@@ -18,6 +18,9 @@
         class="sortArrow">
     </th>
     <th>
+      підписників
+    </th>
+    <th>
       підписники
     </th>
     <th>
@@ -35,6 +38,7 @@
     <td>{{occasion.name}}</td>
     <td>{{occasion.start | date : 'dd.MM.YYYY'}}</td>
     <td>{{occasion.maxSubsNumber}}</td>
+    <td>{{occasion.subscribers.length}}</td>
     <td>
       <mat-icon
         class="pointer"
