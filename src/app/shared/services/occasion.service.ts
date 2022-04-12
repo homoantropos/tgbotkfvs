@@ -13,6 +13,8 @@ export class OccasionService {
   defaultDescription = `<i></i>
 <b>терміни: </b><i></i>
 <b>місце: </b><i></i>
+<b>організатор: </b><i></i>
+
 <a href="">докладніше</a>
 `
 
