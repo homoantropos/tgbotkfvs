@@ -34,8 +34,7 @@ export class OccasionsListComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   goToOccasionEditor(id: number): void {
     this.router.navigateByUrl(`main/occasions/edit/${id}`);
