@@ -8,6 +8,12 @@
   z-index: 1;
 }
 
+@media screen and (orientation: landscape) {
+.alert-wrap {
+  width: 80%;
+}
+}
+
 .success {
   background-color: green;
 }
