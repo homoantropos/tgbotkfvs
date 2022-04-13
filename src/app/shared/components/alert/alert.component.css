@@ -8,10 +8,10 @@
   z-index: 1;
 }
 
-@media screen and (orientation: landscape) {
-.alert-wrap {
-  width: 80%;
-}
+@media screen and (orientation: portrait) {
+  .alert-wrap {
+    width: 80%;
+  }
 }
 
 .success {
