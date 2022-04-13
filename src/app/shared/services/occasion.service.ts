@@ -10,10 +10,11 @@ import {environment} from "../../../environments/environment";
 
 export class OccasionService {
 
-  defaultDescription = `<i></i>
+  defaultDescription = `<b></b>
+<i></i>
 <b>терміни: </b><i></i>
 <b>місце: </b><i></i>
-<b>організатор: </b><i></i>
+<b>організатори: </b><i></i>
 
 <a href="">докладніше</a>
 `
