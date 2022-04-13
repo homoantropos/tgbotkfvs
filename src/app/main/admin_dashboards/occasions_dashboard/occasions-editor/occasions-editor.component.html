@@ -48,7 +48,7 @@
 
     <mat-form-field class="col-sm-6">
       <mat-label>максимальна кількість підписників:</mat-label>
-      <input matInput type="number" [min]="0" formControlName="maxSubsNumber">
+      <input matInput type="number" [min]="minSubs" formControlName="maxSubsNumber">
     </mat-form-field>
     <div *ngIf="occasionForm.controls['maxSubsNumber'].touched && occasionForm.controls['maxSubsNumber'].errors">
       <small class="error" *ngIf="occasionForm.controls['maxSubsNumber'].errors['required']">поле повинно бути заповнене</small>

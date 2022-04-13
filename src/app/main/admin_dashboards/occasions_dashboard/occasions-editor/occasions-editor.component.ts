@@ -24,6 +24,7 @@ export class OccasionsEditorComponent implements OnInit, OnDestroy {
   reset = false;
 
   today = new Date();
+  minSubs = 0;
 
   createOrEditLabelName: string;
   buttonName = 'створити подію';
@@ -78,6 +79,7 @@ export class OccasionsEditorComponent implements OnInit, OnDestroy {
           )
         ).subscribe(
         occasion => {
+          this.minSubs = occasion.subscribers.length;
           this.occasionForm = this.createForm(occasion);
           this.makeFocus();
         },
