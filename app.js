@@ -7,10 +7,10 @@ const app = express();
 
 app.use(compression());
 
-app.use(express.static(path.join(__dirname, 'dist/selectsfactory')));
+app.use(express.static(path.join(__dirname, 'dist/tgbotkfvs')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/selectsfactory/index.html'));
+  res.sendFile(path.join(__dirname, 'dist/tgbotkfvs/index.html'));
 });
 
 const port = process.env.PORT || 3000;

@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  backURI: 'https://kfvstgbot.herokuapp.com/api'
 };
