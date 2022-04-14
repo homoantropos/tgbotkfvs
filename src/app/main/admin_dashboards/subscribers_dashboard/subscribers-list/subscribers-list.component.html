@@ -25,6 +25,9 @@
     <th (click)="sortTable(['last_name'])"
         [innerHTML]="sortDirection ? 'last_name &#8595;' : 'last_name &#8593;'"
         class="sortArrow"></th>
+    <th (click)="sortTable(['subscribedAt'])"
+        [innerHTML]="sortDirection ? 'subscribedAt &#8595;' : 'subscribedAt &#8593;'"
+        class="sortArrow"></th>
     <th (click)="sortTable(['status'])"
         [innerHTML]="sortDirection ? 'status &#8595;' : 'status &#8593;'"
         class="sortArrow"></th>
@@ -45,6 +48,7 @@
     <td>{{subscriber.username}}</td>
     <td>{{subscriber.first_name}}</td>
     <td>{{subscriber.last_name}}</td>
+    <td>{{subscriber.subscribedAt | date: 'dd.MM.YYYY'}}</td>
     <td>{{subscriber.status}}</td>
     <td>
       <input

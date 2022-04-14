@@ -12,6 +12,7 @@ export interface Subscriber {
   occasions?: Array<Occasion>,
   first_name?: string,
   last_name?: string,
+  subscribedAt?: Date,
   status?: string,
   id?: number
 }
