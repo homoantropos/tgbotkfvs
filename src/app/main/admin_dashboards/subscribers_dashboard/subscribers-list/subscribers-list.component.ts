@@ -50,6 +50,10 @@ export class SubscribersListComponent implements OnInit {
   }
 
   sortTable(sortOption: any): void {
-    this.sortDirection = this.sortService.sortTableByStringValues(sortOption, this.subscribers, this.sortDirection);
+    if(sortOption[0] === 'subscribedAt') {
+      this.sortDirection = this.sortService.sortTableByDates(sortOption, this.subscribers, this.sortDirection);
+    } else {
+      this.sortDirection = this.sortService.sortTableByStringValues(sortOption, this.subscribers, this.sortDirection);
+    }
   }
 }

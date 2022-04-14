@@ -8,6 +8,20 @@ export class TableSortService {
   constructor() {
   }
 
+  sortTableByDates(sortOption: Array<string>, sortedArray: Array<any>, direction: boolean): boolean {
+      if(sortOption[0] === 'subscribedAt') {
+        if (direction) {
+          // @ts-ignore
+          sortedArray.sort((a, b) => new Date(b.subscribedAt) - new Date(a.subscribedAt));
+        }
+        else {
+          // @ts-ignore
+          sortedArray.sort((a, b) => new Date(a.subscribedAt) - new Date(b.subscribedAt));
+        }
+      }
+    return !direction;
+  }
+
   sortTableByStringValues(sortOption: Array<string>, sortedArray: Array<any>, direction: boolean): boolean {
 
     if (sortOption.length === 1) {
@@ -20,7 +34,8 @@ export class TableSortService {
       } else {
         if (direction) {
           sortedArray.sort((a, b) => b[sortOption[0]] - a[sortOption[0]]);
-        } else {
+        }
+        else {
           sortedArray.sort((a, b) => a[sortOption[0]] - b[sortOption[0]]);
         }
       }
