@@ -33,6 +33,27 @@
         </mat-select>
       </mat-form-field>
 
+      <ng-container *ngIf="messageForm.value['method'] !== 'sendMessage'">
+        <div *ngIf="posterSrc">
+          <img class="h120" [src]="posterSrc" alt="profile picture"/>
+        </div>
+
+        <input
+          type="file"
+          class="dn"
+          (change)="loadPosterLoaderPreview($event)"
+          #posterLoader
+        >
+
+        <button mat-button
+                class="col-sm-12"
+                color="accent"
+                [disabled]="messageForm.invalid || submitted"
+                (click)="clickProfilePictureSrcInput($event)"
+        >
+          додати аватар
+        </button>
+      </ng-container>
       <button mat-button
               class="col-sm-6"
               color="primary"
@@ -49,7 +70,8 @@
         type="submit"
         color="primary"
         [disabled]="messageForm.invalid || submitted"
-      >надіслати</button>
+      >надіслати
+      </button>
     </form>
   </ng-container>
 </div>

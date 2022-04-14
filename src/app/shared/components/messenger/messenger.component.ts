@@ -19,6 +19,10 @@ export class MessengerComponent implements OnInit, OnDestroy {
 
   mSub: Subscription;
 
+  @ViewChild('posterLoader') private posterLoader: ElementRef;
+  posterSrc = '';
+  poster: File;
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -28,6 +32,7 @@ export class MessengerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.messageForm = this.fb.group({
+      tgIds: [this.messageService.recipients, [Validators.required]],
       text: ['', [Validators.required]],
       method: ['sendMessage', [Validators.required]]
     });
@@ -38,12 +43,30 @@ export class MessengerComponent implements OnInit, OnDestroy {
     })
   }
 
+  clickProfilePictureSrcInput(event: any): void {
+    this.posterLoader.nativeElement.click();
+    this.stopEvent(event);
+  }
+
+  loadPosterLoaderPreview(event: any): void {
+    const file = event.target.files[0]
+    this.poster = file
+
+    const reader = new FileReader()
+
+    reader.onload = () => {
+      if (reader.result)
+        this.posterSrc = reader.result.toString()
+    }
+    reader.readAsDataURL(file)
+  }
+
   onSubmit(value: any): void {
     if(this.messageForm.invalid) {
       return
     }
     const body = {
-      tgIds: this.messageService.recipients,
+      tgIds: value.tgIds,
       text: value.text,
       method: value.method
     };
@@ -66,6 +89,11 @@ export class MessengerComponent implements OnInit, OnDestroy {
   close(): void {
     this.messageService.recipients.splice(0);
     this.router.navigate(['main', 'subscribers']);
+  }
+
+  stopEvent(event: Event): void {
+    event.stopPropagation();
+    event.preventDefault();
   }
 
   ngOnDestroy(): void {
