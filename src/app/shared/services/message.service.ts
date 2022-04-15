@@ -16,11 +16,11 @@ export class MessageService {
 
   sendMessage(body: {tgIds: Array<number>, text?: string, method: string}, image?: File): Observable<{ message: string }> {
     let fd = new FormData();
+    fd.set('tgIds', JSON.stringify(body.tgIds));
     fd.set('method', body.method);
-    if(body.text) {
+    if(body.method === 'sendMessage') {
       fd.set('text', body.text)
     }
-    fd.set('tgIds', JSON.stringify(body.tgIds));
     if (image) {
       fd.append('image', image, image.name);
     }

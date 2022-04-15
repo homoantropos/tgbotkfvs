@@ -71,7 +71,8 @@ export class MessengerComponent implements OnInit, OnDestroy {
       method: value.method
     };
     this.submitted = true;
-    this.mSub = this.messageService.sendMessage(body).subscribe(
+    this.mSub = this.messageService.sendMessage(body)
+      .subscribe(
       response => {
         this.alert.success(response.message);
         this.messageForm.reset();
