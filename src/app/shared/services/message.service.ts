@@ -20,8 +20,7 @@ export class MessageService {
     if(body.text) {
       fd.set('text', body.text)
     }
-    fd.set('tgIds', JSON.stringify(body['tgIds']));
-    console.log(fd.get('tgIds'));
+    fd.set('tgIds', JSON.stringify(body.tgIds));
     if (image) {
       fd.append('image', image, image.name);
     }
