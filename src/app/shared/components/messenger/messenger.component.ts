@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MessageService} from "../../services/message.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -20,8 +20,7 @@ export class MessengerComponent implements OnInit, OnDestroy {
   mSub: Subscription;
 
   @ViewChild('posterLoader') private posterLoader: ElementRef;
-  posterSrc = '';
-  poster: File;
+  @Input() posterSrc = '';
 
   constructor(
     private router: Router,
@@ -34,31 +33,14 @@ export class MessengerComponent implements OnInit, OnDestroy {
     this.messageForm = this.fb.group({
       tgIds: [this.messageService.recipients, [Validators.required]],
       text: ['', [Validators.required]],
-      method: ['sendMessage', [Validators.required]]
+      method: ['sendMessage', [Validators.required]],
+      mediaURL: ['']
     });
     setTimeout(() => {
       if(this.messageForm['controls']['text']) {
         this.textInput.nativeElement.focus();
       }
     })
-  }
-
-  clickProfilePictureSrcInput(event: any): void {
-    this.posterLoader.nativeElement.click();
-    this.stopEvent(event);
-  }
-
-  loadPosterLoaderPreview(event: any): void {
-    const file = event.target.files[0]
-    this.poster = file
-
-    const reader = new FileReader()
-
-    reader.onload = () => {
-      if (reader.result)
-        this.posterSrc = reader.result.toString()
-    }
-    reader.readAsDataURL(file)
   }
 
   onSubmit(value: any): void {
@@ -68,7 +50,8 @@ export class MessengerComponent implements OnInit, OnDestroy {
     const body = {
       tgIds: value.tgIds,
       text: value.text,
-      method: value.method
+      method: value.method,
+      mediaUrl: value.mediaURL
     };
     this.submitted = true;
     this.mSub = this.messageService.sendMessage(body)
@@ -90,11 +73,6 @@ export class MessengerComponent implements OnInit, OnDestroy {
   close(): void {
     this.messageService.recipients.splice(0);
     this.router.navigate(['main', 'subscribers']);
-  }
-
-  stopEvent(event: Event): void {
-    event.stopPropagation();
-    event.preventDefault();
   }
 
   ngOnDestroy(): void {

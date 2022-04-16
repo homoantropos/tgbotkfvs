@@ -14,13 +14,13 @@ export class MessageService {
     private http: HttpClient
   ) { }
 
-  sendMessage(body: {tgIds: Array<number>, text?: string, method: string}, image?: File): Observable<{ message: string }> {
+  sendMessage(
+    body: {tgIds: Array<number>, text?: string, method: string, mediaUrl: string},
+    image?: File): Observable<{ message: string }> {
     let fd = new FormData();
-    fd.set('tgIds', JSON.stringify(body.tgIds));
-    fd.set('method', body.method);
-    if(body.method === 'sendMessage') {
-      fd.set('text', body.text)
-    }
+    Object.keys(body).map(
+      key => fd.set(key, body[key])
+    );
     if (image) {
       fd.append('image', image, image.name);
     }

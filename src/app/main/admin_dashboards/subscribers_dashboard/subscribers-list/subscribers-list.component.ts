@@ -13,6 +13,7 @@ import {Router} from "@angular/router";
 export class SubscribersListComponent implements OnInit {
 
   @Input() subscribers: Array<Subscriber> = [];
+  @Input() occasionTitle = '';
 
   paginatorStartPageNumber = 0;
   itemsPerPage = 10;
