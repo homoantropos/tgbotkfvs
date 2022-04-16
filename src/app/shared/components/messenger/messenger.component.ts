@@ -11,6 +11,7 @@ import {environment} from "../../../../environments/environment";
   templateUrl: './messenger.component.html',
   styleUrls: ['./messenger.component.css']
 })
+
 export class MessengerComponent implements OnInit, OnDestroy {
 
   messageForm: FormGroup;
@@ -22,6 +23,8 @@ export class MessengerComponent implements OnInit, OnDestroy {
 
   @ViewChild('posterLoader') private posterLoader: ElementRef;
   posterSrc = '';
+
+  sendMediaUrl = '';
 
   constructor(
     private router: Router,
@@ -38,6 +41,7 @@ export class MessengerComponent implements OnInit, OnDestroy {
       method: ['sendMessage', [Validators.required]],
       mediaURL: ['']
     });
+    this.sendMediaUrl = `https://kfvstgbot.herokuapp.com/api/send/photo?${this.messageService.recipients[0]}`
     setTimeout(() => {
       if(this.messageForm['controls']['text']) {
         this.textInput.nativeElement.focus();
@@ -79,10 +83,6 @@ export class MessengerComponent implements OnInit, OnDestroy {
   close(): void {
     this.messageService.recipients.splice(0);
     this.router.navigate(['main', 'subscribers']);
-  }
-
-  goToSendFile(): void {
-    this.router.navigateByUrl(`${environment.backURI}/send?${this.messageService.recipients[0]}`)
   }
 
   ngOnDestroy(): void {

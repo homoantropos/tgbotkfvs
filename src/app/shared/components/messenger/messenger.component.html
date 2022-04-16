@@ -42,21 +42,17 @@
         <mat-form-field>
           <mat-label>з мережі</mat-label>
           <input
-          matInput
-          type="text"
-          formControlName="mediaURL"
-          (input)="showPreview(messageForm.value['mediaURL'])"
+            matInput
+            type="text"
+            formControlName="mediaURL"
+            (input)="showPreview(messageForm.value['mediaURL'])"
           />
         </mat-form-field>
 
-        <button
-          class="col-sm-12 m-b-1"
-          mat-button
-          color="primary"
-          (click)="goToSendFile()"
-        >
+        <a href=`sendMediaUrl`>
           з пам'яті
-        </button>
+        </a>
+
       </ng-container>
       <button mat-button
               class="col-sm-6"
