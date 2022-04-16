@@ -49,8 +49,17 @@
           />
         </mat-form-field>
 
-        <a [href]="sendMediaUrl">
-          з пам'яті
+        <a
+          [href]="sendMediaUrl"
+        >
+          <button
+            (click)="stopEvent($event)"
+            class="col-sm-12"
+            mat-button
+            color="primary"
+          >
+            з пам'яті
+          </button>
         </a>
 
       </ng-container>

@@ -80,6 +80,11 @@ export class MessengerComponent implements OnInit, OnDestroy {
     this.posterSrc = url;
   }
 
+  stopEvent(event: Event): void {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
   close(): void {
     this.messageService.recipients.splice(0);
     this.router.navigate(['main', 'subscribers']);
