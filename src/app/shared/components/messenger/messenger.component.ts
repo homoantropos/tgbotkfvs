@@ -41,7 +41,7 @@ export class MessengerComponent implements OnInit, OnDestroy {
       method: ['sendMessage', [Validators.required]],
       mediaURL: ['']
     });
-    this.sendMediaUrl = `https://kfvstgbot.herokuapp.com/api/send/photo?${this.messageService.recipients[0]}`
+    this.sendMediaUrl = `${environment.backURI}/api/send/photo?${this.messageService.recipients[0]}`
     setTimeout(() => {
       if(this.messageForm['controls']['text']) {
         this.textInput.nativeElement.focus();
