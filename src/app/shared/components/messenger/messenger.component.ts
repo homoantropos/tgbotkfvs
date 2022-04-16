@@ -1,9 +1,10 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MessageService} from "../../services/message.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AlertService} from "../../services/alert.-service";
 import {Subscription} from "rxjs";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-messenger',
@@ -20,11 +21,12 @@ export class MessengerComponent implements OnInit, OnDestroy {
   mSub: Subscription;
 
   @ViewChild('posterLoader') private posterLoader: ElementRef;
-  @Input() posterSrc = '';
+  posterSrc = '';
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
+    private changeRef: ChangeDetectorRef,
     private messageService: MessageService,
     private alert: AlertService
   ) { }
@@ -70,9 +72,17 @@ export class MessengerComponent implements OnInit, OnDestroy {
     )
   }
 
+  showPreview(url: string): void {
+    this.posterSrc = url;
+  }
+
   close(): void {
     this.messageService.recipients.splice(0);
     this.router.navigate(['main', 'subscribers']);
+  }
+
+  goToSendFile(): void {
+    this.router.navigateByUrl(`${environment.backURI}/send?${this.messageService.recipients[0]}`)
   }
 
   ngOnDestroy(): void {

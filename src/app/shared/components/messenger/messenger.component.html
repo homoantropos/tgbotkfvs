@@ -35,20 +35,28 @@
 
       <ng-container *ngIf="messageForm.value['method'] !== 'sendMessage'">
 
-        <div *ngIf="posterSrc">
-          <img class="h120" [src]="posterSrc" alt="profile picture"/>
+        <div *ngIf="messageForm.value['method'] === 'sendPhoto'">
+          <img class="h120" [src]="posterSrc" alt="preview"/>
         </div>
 
         <mat-form-field>
-          <mat-label>вставте Url фотографії</mat-label>
+          <mat-label>з мережі</mat-label>
           <input
           matInput
           type="text"
           formControlName="mediaURL"
-          (change)="posterSrc = messageForm.value['mediaURL']"
+          (input)="showPreview(messageForm.value['mediaURL'])"
           />
         </mat-form-field>
 
+        <button
+          class="col-sm-12 m-b-1"
+          mat-button
+          color="primary"
+          (click)="goToSendFile()"
+        >
+          з пам'яті
+        </button>
       </ng-container>
       <button mat-button
               class="col-sm-6"
