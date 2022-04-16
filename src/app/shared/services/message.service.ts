@@ -24,7 +24,7 @@ export class MessageService {
     if (image) {
       fd.append('image', image, image.name);
     }
-    return this.http.post<{ message: string }>(`${environment.backURI}/send`, body);
+    return this.http.post<{ message: string }>(`${environment.backURI}/sendMedia`, body);
   }
 
 }
