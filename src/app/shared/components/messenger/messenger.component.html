@@ -35,26 +35,40 @@
 
       <ng-container *ngIf="messageForm.value['method'] !== 'sendMessage'">
 
-        <div *ngIf="messageForm.value['method'] === 'sendPhoto'">
-          <img class="h120" [src]="posterSrc" alt="preview"/>
+        <small class="col-sm-12 m-b-1 centerHorizontal">вставте посилання на медіа з мережі або оберіть медіафайл з пам'яті пристрою</small>
+
+        <div *ngIf="messageForm.value['method'] === 'sendPhoto' && imagePreviewSrc">
+          <img class="h120" [src]="imagePreviewSrc" alt="preview"/>
         </div>
 
         <mat-form-field>
           <mat-label>з мережі</mat-label>
           <input
             matInput
+            name="photo"
             type="text"
             formControlName="mediaURL"
             (input)="showPreview(messageForm.value['mediaURL'])"
           />
         </mat-form-field>
 
-        <a
-          class="col-sm-12"
-          [href]="sendMediaUrl"
+        <input
+          type="file"
+          name="photo"
+          class="dn"
+          (change)="loadPosterLoaderPreview($event)"
+          #posterLoader
         >
-            з пам'яті
-        </a>
+
+        <button mat-button
+                *ngIf="!imagePreviewSrc && !sentMedia"
+                class="col-sm-12"
+                color="accent"
+                [disabled]="messageForm.invalid || submitted"
+                (click)="clickProfilePictureSrcInput($event)"
+        >
+          з пам'яті пристрою
+        </button>
 
       </ng-container>
       <button mat-button

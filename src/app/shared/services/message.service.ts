@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
@@ -12,19 +12,10 @@ export class MessageService {
 
   constructor(
     private http: HttpClient
-  ) { }
-
-  sendMessage(
-    body: {tgIds: Array<number>, text?: string, method: string, mediaUrl: string},
-    image?: File): Observable<{ message: string }> {
-    let fd = new FormData();
-    Object.keys(body).map(
-      key => fd.set(key, body[key])
-    );
-    if (image) {
-      fd.append('image', image, image.name);
-    }
-    return this.http.post<{ message: string }>(`${environment.backURI}/sendMedia`, body);
+  ) {
   }
 
+  send(fd: FormData, method: string): Observable<any> {
+    return this.http.post<any>(`https://api.telegram.org/bot${environment.bot_token}/${method}`, fd);
+  }
 }

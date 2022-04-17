@@ -4,7 +4,6 @@ import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AlertService} from "../../services/alert.-service";
 import {Subscription} from "rxjs";
-import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-messenger',
@@ -22,9 +21,10 @@ export class MessengerComponent implements OnInit, OnDestroy {
   mSub: Subscription;
 
   @ViewChild('posterLoader') private posterLoader: ElementRef;
-  posterSrc = '';
 
-  sendMediaUrl = '';
+  imagePreviewSrc = '';
+  sentMedia: File = null;
+  sent = 0;
 
   constructor(
     private router: Router,
@@ -32,7 +32,8 @@ export class MessengerComponent implements OnInit, OnDestroy {
     private changeRef: ChangeDetectorRef,
     private messageService: MessageService,
     private alert: AlertService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.messageForm = this.fb.group({
@@ -41,43 +42,70 @@ export class MessengerComponent implements OnInit, OnDestroy {
       method: ['sendMessage', [Validators.required]],
       mediaURL: ['']
     });
-    this.sendMediaUrl = `${environment.backURI}/send/photo?${this.messageService.recipients[0]}`
     setTimeout(() => {
-      if(this.messageForm['controls']['text']) {
+      if (this.messageForm['controls']['text']) {
         this.textInput.nativeElement.focus();
       }
     })
   }
 
+  clickProfilePictureSrcInput(event: any): void {
+    this.posterLoader.nativeElement.click();
+    this.stopEvent(event);
+  }
+
+  loadPosterLoaderPreview(event: any): void {
+    const file = event.target.files[0]
+    this.sentMedia = file
+
+    const reader = new FileReader()
+
+    reader.onload = () => {
+      if (reader.result)
+        this.imagePreviewSrc = reader.result.toString()
+    }
+    reader.readAsDataURL(file)
+  }
+
   onSubmit(value: any): void {
-    if(this.messageForm.invalid) {
+    if (this.messageForm.invalid) {
       return
     }
-    const body = {
-      tgIds: value.tgIds,
-      text: value.text,
-      method: value.method,
-      mediaUrl: value.mediaURL
-    };
-    this.submitted = true;
-    this.mSub = this.messageService.sendMessage(body)
-      .subscribe(
-      response => {
-        this.alert.success(response.message);
-        this.messageForm.reset();
-        this.messageService.recipients.splice(0);
-        this.submitted = false;
-        this.router.navigate(['main', 'subscribers']);
-      },
-      error => {
-        this.alert.danger(error);
-        this.submitted = false;
+    const fd = new FormData();
+    const method = value['method'];
+    fd.set('text', value['text']);
+    fd.set('capture', value['capture']);
+    if (this.sentMedia) {
+      fd.append('photo', this.sentMedia, this.sentMedia.name);
+    } else {
+      fd.append('photo', value.mediaURL);
+    }
+    this.messageService.recipients.map(
+      recipient => {
+        this.sent = this.sent + 1;
+        if (fd.has('chat_id')) {
+          fd.delete('chat_id');
+        }
+        fd.append('chat_id', recipient.toString());
+        this.submitted = true;
+        this.messageService.send(fd, method)
+          .subscribe(
+            error => {
+              this.alert.danger(error.error.message ? error.error.message : error);
+              this.submitted = false;
+            }
+          );
       }
-    )
+    );
+    this.alert.success(`успішно надіслано повідомлень: ${this.sent}`);
+    this.messageForm.reset();
+    this.messageService.recipients.splice(0);
+    this.submitted = false;
+    this.router.navigate(['main', 'subscribers']);
   }
 
   showPreview(url: string): void {
-    this.posterSrc = url;
+    this.imagePreviewSrc = url;
   }
 
   stopEvent(event: Event): void {
@@ -91,7 +119,7 @@ export class MessengerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.mSub) {
+    if (this.mSub) {
       this.mSub.unsubscribe();
     }
     this.messageService.recipients.splice(0);

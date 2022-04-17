@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  backURI: 'https://kfvstgbot.herokuapp.com/api'
+  backURI: 'https://kfvstgbot.herokuapp.com/api',
+  bot_token: '5143173120:AAE_DhKbtSds17UpQ7gXHJpB8iMJUAoCxIE'
 };
 
 /*
