@@ -32,8 +32,7 @@ export class MessengerComponent implements OnInit, OnDestroy {
     private changeRef: ChangeDetectorRef,
     private messageService: MessageService,
     private alert: AlertService
-  ) {
-  }
+  ) {  }
 
   ngOnInit(): void {
     this.messageForm = this.fb.group({
