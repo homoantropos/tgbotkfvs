@@ -6,13 +6,28 @@
       (ngSubmit)="onSubmit(messageForm.value)"
     >
       <mat-form-field>
-        <mat-label>текст повідомлення:</mat-label>
+        <mat-label>надіслати:</mat-label>
+        <mat-select formControlName="method">
+          <mat-option value="sendMessage">повідомлення</mat-option>
+          <mat-option value="sendPhoto">фото</mat-option>
+          <mat-option value="sendVideo">відео</mat-option>
+          <mat-option value="sendAudio">аудіо запис</mat-option>
+          <mat-option value="sendDocument">документ</mat-option>
+          <mat-option value="sendAnimation">анімацію</mat-option>
+          <mat-option value="sendVoice">голосове повідомлення</mat-option>
+          <mat-option value="sendVideoNote">відео нотатку</mat-option>
+          <mat-option value="sendMediaGroup">медіа групу</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>текст (повідомлення або опису медіа):</mat-label>
         <textarea
           name="text"
           #textInput
-          id=""
+          id="text"
           cols="30"
-          rows="10"
+          rows="9"
           matInput
           formControlName="text"
         ></textarea>
@@ -21,18 +36,30 @@
         <small class="error" *ngIf="messageForm.controls['text'].errors['required']">поле повинно бути заповнене</small>
       </div>
 
+      <mat-form-field *ngIf="show_Reply_Markup">
+        <mat-label>прикріплена розмітка:</mat-label>
+        <textarea
+          name="text"
+          cols="30"
+          rows="2"
+          matInput
+          formControlName="reply_markup"
+        ></textarea>
+      </mat-form-field>
+
+      <button mat-button class="col-sm-12" (click)="showReplyMarkup($event)">додати замикаючу клавіатуру</button>
+
       <mat-form-field>
-        <mat-label>вид відправлення:</mat-label>
-        <mat-select formControlName="method">
-          <mat-option value="sendMessage">повідомлення</mat-option>
-          <mat-option value="sendPhoto">фото</mat-option>
-          <mat-option value="sendAudio">аудіо запис</mat-option>
-          <mat-option value="sendDocument">документ</mat-option>
-          <mat-option value="sendVideo">відео</mat-option>
-          <mat-option value="sendAnimation">анімація</mat-option>
+        <mat-label>сповіщати отримувача:</mat-label>
+        <mat-select formControlName="disable_notification">
+          <mat-option value="true">ні</mat-option>
+          <mat-option value="false">так</mat-option>
         </mat-select>
       </mat-form-field>
 
+      <div *ngIf="messageForm.controls['text'].touched && messageForm.controls['text'].errors">
+        <small class="error" *ngIf="messageForm.controls['text'].errors['required']">поле повинно бути заповнене</small>
+      </div>
       <ng-container *ngIf="messageForm.value['method'] !== 'sendMessage'">
 
         <small class="col-sm-12 m-b-1 centerHorizontal">вставте посилання на медіа з мережі або оберіть медіафайл з пам'яті пристрою</small>
