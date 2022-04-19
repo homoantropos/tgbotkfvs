@@ -186,6 +186,10 @@ mat-form-field {
   justify-content: space-between;
 }
 
+.tgbackground {
+  background-color: #35A5DE;
+}
+
 mat-toolbar {
   justify-content: space-between;
 }
