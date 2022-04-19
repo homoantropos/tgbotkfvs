@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="tgbackground">
   <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" *ngIf="auth.isAuthenticated()">
     <mat-icon>more_vert</mat-icon>
   </button>
@@ -28,6 +28,7 @@
     >
       <mat-icon routerLink="login" routerLinkActive="active">login</mat-icon>
     </button>
+
   </div>
 
   <div *ngIf="auth.isAuthenticated()">
@@ -37,6 +38,7 @@
       class="m-r-1">
       <mat-icon (click)="auth.logOut()">logout</mat-icon>
     </button>
+
   </div>
 
 </mat-toolbar>
