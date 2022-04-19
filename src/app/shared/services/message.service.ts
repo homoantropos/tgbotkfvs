@@ -12,8 +12,7 @@ export class MessageService {
 
   constructor(
     private http: HttpClient
-  ) {
-  }
+  ) {  }
 
   send(fd: FormData, method: string): Observable<any> {
     return this.http.post<any>(`https://api.telegram.org/bot${environment.bot_token}/${method}`, fd);
