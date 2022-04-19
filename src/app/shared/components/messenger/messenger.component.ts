@@ -26,6 +26,8 @@ export class MessengerComponent implements OnInit, OnDestroy {
   sentMedia: File = null;
   sent = 0;
 
+  show_Reply_Markup = false;
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -38,8 +40,11 @@ export class MessengerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.messageForm = this.fb.group({
       tgIds: [this.messageService.recipients, [Validators.required]],
-      text: ['', [Validators.required]],
+      text: [this.messageService.getDefaultText()],
       method: ['sendMessage', [Validators.required]],
+      parse_mode: ['HTML'],
+      reply_markup: [JSON.stringify(this.messageService.getDefaultReplyMarkup())],
+      disable_notification: ['true'],
       mediaURL: ['']
     });
     setTimeout(() => {
@@ -67,31 +72,47 @@ export class MessengerComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(file)
   }
 
+  showReplyMarkup(event: Event): void {
+    this.show_Reply_Markup = true;
+    this.stopEvent(event);
+  }
+
   onSubmit(value: any): void {
     if (this.messageForm.invalid) {
       return
     }
-    const fd = new FormData();
     const method = value['method'];
-    fd.set('text', value['text']);
-    fd.set('capture', value['capture']);
-    if (this.sentMedia) {
-      fd.append('photo', this.sentMedia, this.sentMedia.name);
+    const mediaName = this.messageService.getMediaNameForMethod(method);
+    const fd = new FormData();
+    //обираємо призначення текстового поля - або тест повідомлення або опис медіа
+    if (method === 'sendMessage') {
+      fd.set('text', value['text']);
     } else {
-      fd.append('photo', value.mediaURL);
+      fd.set('caption', value['text']);
     }
+    //додаємо або файл (якщо надсилалось з компьютера медіа) або URL
+    if (this.sentMedia) {
+      fd.append(mediaName, this.sentMedia, this.sentMedia.name);
+    } else {
+      fd.append(mediaName, value.mediaURL);
+    }
+    //додаємо розмітку (інлайн-клавіатуру)
+    if(this.show_Reply_Markup) {fd.set('reply_markup', value['reply_markup']);}
+    //встановлюємо значення параметрів parse_mode - в 'HTML' (не змінюється) та disable_notification (обране)
+    fd.set('parse_mode', value['parse_mode']);
+    fd.set('disable_notification', value['disable_notification']);
+    //надсилаємо всім обраним користувачам підготоване повідомлення
     this.messageService.recipients.map(
       recipient => {
         this.sent = this.sent + 1;
-        if (fd.has('chat_id')) {
-          fd.delete('chat_id');
-        }
+        if (fd.has('chat_id')) {fd.delete('chat_id');}
         fd.append('chat_id', recipient.toString());
         this.submitted = true;
         this.messageService.send(fd, method)
           .subscribe(
+            response => console.log(response),
             error => {
-              this.alert.danger(error.error.message ? error.error.message : error);
+              this.alert.danger(error.message ? error.message : error);
               this.submitted = false;
             }
           );
@@ -122,6 +143,7 @@ export class MessengerComponent implements OnInit, OnDestroy {
     if (this.mSub) {
       this.mSub.unsubscribe();
     }
+    this.show_Reply_Markup = false;
     this.messageService.recipients.splice(0);
   }
 }
