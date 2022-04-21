@@ -69,6 +69,12 @@ h1, h2, h3, h4, h5 {
   transform: translate(0, -50%);
 }
 
+.centerVerticalRelative {
+  position: relative;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
 .centerHorizontalAbsolute {
   position: absolute;
   left: 50%;
@@ -87,6 +93,11 @@ h1, h2, h3, h4, h5 {
 
 .floatedRight {
   float: right;
+}
+
+.formArrayGroupContainer {
+  display: flex;
+  align-items: center;
 }
 
 .formContainer {

@@ -38,6 +38,7 @@ import { OccasionsEditorComponent } from './main/admin_dashboards/occasions_dash
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 import { DeletionConfirmerComponent } from './shared/components/deletion-confirmer/deletion-confirmer.component';
 import { MessengerComponent } from './shared/components/messenger/messenger.component';
+import { PollComponent } from './shared/components/poll/poll.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { MessengerComponent } from './shared/components/messenger/messenger.comp
     OccasionsListComponent,
     OccasionsEditorComponent,
     DeletionConfirmerComponent,
-    MessengerComponent
+    MessengerComponent,
+    PollComponent
   ],
   imports: [
     FormsModule,
