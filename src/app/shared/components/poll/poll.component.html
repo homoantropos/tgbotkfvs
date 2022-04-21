@@ -3,7 +3,7 @@
     <form
       class="col-sm-8 centerHorizontal pollContainer m-t-3"
       [formGroup]="pollForm"
-      (ngSubmit)="onSubmit(pollForm)"
+      (ngSubmit)="onSubmit(pollForm.value)"
     >
 
       <div class="formTitle m-t-2">
@@ -31,22 +31,22 @@
       <div formArrayName="options" *ngFor="let _ of options.controls; index as i last as last">
         <div class="formArrayGroupContainer" formGroupName="{{i}}">
           <mat-form-field class="col-sm-9">
-            <mat-label>text</mat-label>
+            <mat-label>option</mat-label>
             <input
               matInput
               type="text"
               formControlName="text"
             />
           </mat-form-field>
-          <mat-form-field class="col-sm-2">
-            <mat-label>voter_count</mat-label>
-            <input
-              matInput
-              type="number"
-              [min]="0"
-              formControlName="voter_count"
-            />
-          </mat-form-field>
+<!--          <mat-form-field class="col-sm-2">-->
+<!--            <mat-label>voter_count</mat-label>-->
+<!--            <input-->
+<!--              matInput-->
+<!--              type="number"-->
+<!--              [min]="0"-->
+<!--              formControlName="voter_count"-->
+<!--            />-->
+<!--          </mat-form-field>-->
           <mat-icon class="pointer" (click)="removePollOptions(i)">delete</mat-icon>
         </div>
       </div>
@@ -89,8 +89,6 @@
         </mat-select>
       </mat-form-field>
 
-
-      “” or “”
       <mat-form-field class="col-sm-2">
         <mat-label>allows_multiple_answers</mat-label>
         <mat-select class="col-sm-2" formControlName="allows_multiple_answers">
@@ -114,7 +112,6 @@
         <input
           matInput
           type="text"
-          [min]="0"
           formControlName="explanation"
         />
       </mat-form-field>

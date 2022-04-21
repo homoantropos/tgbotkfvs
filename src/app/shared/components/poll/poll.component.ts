@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {PollService} from "../../services/poll.service";
-import {MessageEntity, PollOption, TgUser} from "../../interfaces";
 import {Router} from "@angular/router";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-poll',
@@ -16,6 +17,7 @@ export class PollComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private http: HttpClient,
     private pollService: PollService
   ) { }
 
@@ -30,16 +32,16 @@ export class PollComponent implements OnInit {
       id: [''],
       question:	[''],
       options:	this.fb.array([]),
-      total_voter_count: [null],
+      total_voter_count: [0],
       is_closed: [false],
       is_anonymous: [true],
       type: ['regular'],
       allows_multiple_answers: [false],
-      correct_option_id: [null],
+      correct_option_id: [0],
       explanation: [''],
       explanation_entities:	this.fb.array([]),
-      open_period: [null],
-      close_date: [null],
+      open_period: [0],
+      close_date: [0],
     });
   }
 
@@ -50,8 +52,7 @@ export class PollComponent implements OnInit {
   addPollOptions(): void {
     return this.options.push(
       this.fb.group({
-        text: [''],
-        voter_count: [null]
+        text: ['']
       })
     )
   }
@@ -81,8 +82,27 @@ export class PollComponent implements OnInit {
     this.explanation_entities.removeAt(index);
   }
 
-  onSubmit(value: FormGroup): void {
-
+  onSubmit(value: any): void {
+    const options: Array<string> = [];
+    value.options.map(
+      // @ts-ignore
+      text => options.push(text.text)
+    );
+    const fd = new FormData();
+    Object.keys(value).map(
+      key => fd.set(key, value[key])
+    );
+    fd.set('chat_id', '481547986');
+    fd.delete('options');
+    fd.set('options', JSON.stringify(options));
+    Object.keys(value).map(
+      key => console.log(key, fd.get(key))
+    );
+    this.http.post<any>(`https://api.telegram.org/bot${environment.bot_token}/sendPoll`, fd)
+      .subscribe(
+        response => console.log(response),
+        error => console.error(error)
+      );
   }
 
   onReset(): void {
