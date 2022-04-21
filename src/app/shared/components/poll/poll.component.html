@@ -1,0 +1,228 @@
+<div class="backDrop">
+  <ng-container class="z-index-p1" *ngIf="pollForm; else loader">
+    <form
+      class="col-sm-8 centerHorizontal pollContainer m-t-3"
+      [formGroup]="pollForm"
+      (ngSubmit)="onSubmit(pollForm)"
+    >
+
+      <div class="formTitle m-t-2">
+        <p><b>Заповніть поля для опитування</b></p>
+      </div>
+
+      <mat-form-field>
+        <mat-label>id</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="id"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>question</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="question"
+        />
+      </mat-form-field>
+
+      <div formArrayName="options" *ngFor="let _ of options.controls; index as i last as last">
+        <div class="formArrayGroupContainer" formGroupName="{{i}}">
+          <mat-form-field class="col-sm-9">
+            <mat-label>text</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="text"
+            />
+          </mat-form-field>
+          <mat-form-field class="col-sm-2">
+            <mat-label>voter_count</mat-label>
+            <input
+              matInput
+              type="number"
+              [min]="0"
+              formControlName="voter_count"
+            />
+          </mat-form-field>
+          <mat-icon class="pointer" (click)="removePollOptions(i)">delete</mat-icon>
+        </div>
+      </div>
+
+      <div class="col-sm-12">
+        <mat-icon class="pointer centerHorizontal" (click)="addPollOptions()">add</mat-icon>
+      </div>
+
+      <mat-form-field class="col-sm-2">
+        <mat-label>total_voter_count</mat-label>
+        <input
+          matInput
+          type="number"
+          [min]="0"
+          formControlName="total_voter_count"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-2">
+        <mat-label>is_closed</mat-label>
+        <mat-select formControlName="is_closed">
+          <mat-option value="true">закрите</mat-option>
+          <mat-option value="false">відкрите</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-2">
+        <mat-label>is_anonymous</mat-label>
+        <mat-select class="col-sm-2" formControlName="is_anonymous">
+          <mat-option value="true">анонімне</mat-option>
+          <mat-option value="false">не анонімне</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-2">
+        <mat-label>type</mat-label>
+        <mat-select class="col-sm-2" formControlName="type">
+          <mat-option value="regular">regular</mat-option>
+          <mat-option value="quiz">quiz</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      “” or “”
+      <mat-form-field class="col-sm-2">
+        <mat-label>allows_multiple_answers</mat-label>
+        <mat-select class="col-sm-2" formControlName="allows_multiple_answers">
+          <mat-option value="true">allow</mat-option>
+          <mat-option value="false">disallow</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-2">
+        <mat-label>correct_option_id</mat-label>
+        <input
+          matInput
+          type="number"
+          [min]="0"
+          formControlName="correct_option_id"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>explanation</mat-label>
+        <input
+          matInput
+          type="text"
+          [min]="0"
+          formControlName="explanation"
+        />
+      </mat-form-field>
+
+      <div formArrayName="explanation_entities"
+           *ngFor="let _ of explanation_entities.controls; index as i last as last">
+        <div class="formArrayGroupContainer" formGroupName="{{i}}">
+          <mat-form-field class="col-sm-9">
+            <mat-label>type</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="type"
+            />
+          </mat-form-field>
+          <mat-form-field class="col-sm-2">
+            <mat-label>offset</mat-label>
+            <input
+              matInput
+              type="number"
+              [min]="0"
+              formControlName="offset"
+            />
+          </mat-form-field>
+          <mat-form-field class="col-sm-2">
+            <mat-label>length</mat-label>
+            <input
+              matInput
+              type="number"
+              [min]="0"
+              formControlName="length"
+            />
+          </mat-form-field>
+          <mat-form-field class="col-sm-2">
+            <mat-label>url</mat-label>
+            <input
+              matInput
+              type="text"
+              [min]="0"
+              formControlName="url"
+            />
+          </mat-form-field>
+          <mat-form-field class="col-sm-2">
+            <mat-label>user</mat-label>
+            <input
+              matInput
+              type="number"
+              [min]="0"
+              formControlName="user"
+            />
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-2">
+            <mat-label>language</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="language"
+            />
+          </mat-form-field>
+          <mat-icon class="pointer" (click)="removeExpEnt(i)">delete</mat-icon>
+        </div>
+      </div>
+
+      <mat-form-field class="col-sm-2">
+      <mat-label>open_period</mat-label>
+      <input
+        matInput
+        type="number"
+        [min]="0"
+        formControlName="open_period"
+      />
+    </mat-form-field>
+
+      <mat-form-field class="col-sm-2">
+        <mat-label>close_date</mat-label>
+        <input
+          matInput
+          type="number"
+          [min]="0"
+          formControlName="close_date"
+        />
+      </mat-form-field>
+
+      <div class="col-sm-12">
+        <mat-icon class="pointer centerHorizontal" (click)="addExpEnt()">add</mat-icon>
+      </div>
+
+      <button
+        class="col-sm-6"
+        mat-button
+        type="button"
+        color="warn"
+        (click)="onReset()"
+      >скинути
+      </button>
+
+      <button
+        class="col-sm-6"
+        mat-button
+        type="submit"
+        color="primary"
+      >submit
+      </button>
+    </form>
+  </ng-container>
+</div>
+
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>
