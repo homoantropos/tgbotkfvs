@@ -20,7 +20,7 @@ export class MessengerComponent implements OnInit, OnDestroy {
 
   mSub: Subscription;
 
-  @ViewChild('posterLoader') private posterLoader: ElementRef;
+  @ViewChild('mediaLoader') private mediaLoader: ElementRef;
 
   imagePreviewSrc = '';
   sentMedia: File = null;
@@ -54,20 +54,22 @@ export class MessengerComponent implements OnInit, OnDestroy {
     })
   }
 
-  clickProfilePictureSrcInput(event: any): void {
-    this.posterLoader.nativeElement.click();
+  clickMediaSrcInput(event: any): void {
+    this.messageForm.value['mediaURL'] = '';
+    this.mediaLoader.nativeElement.click();
     this.stopEvent(event);
   }
 
-  loadPosterLoaderPreview(event: any): void {
+  loadImagePreview(event: any): void {
     const file = event.target.files[0]
     this.sentMedia = file
 
     const reader = new FileReader()
 
     reader.onload = () => {
-      if (reader.result)
-        this.imagePreviewSrc = reader.result.toString()
+      if (reader.result) {
+        this.showPreview(reader.result.toString());
+      }
     }
     reader.readAsDataURL(file)
   }

@@ -31,7 +31,7 @@ export class MessageService {
   }
 
   getDefaultReplyMarkup(): any {
-    return {inline_keyboard:[[{text: '', url: ''}]]}
+    return {inline_keyboard:[[{text: 'на головну', callback_data: '/start'}]]}
   }
 
   getMediaNameForMethod(method: string): string {

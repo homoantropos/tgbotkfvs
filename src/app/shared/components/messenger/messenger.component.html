@@ -1,7 +1,7 @@
 <div class="backDrop">
   <ng-container class="z-index-p1" *ngIf="messageForm; else loader">
     <form
-      class="col-sm-12 centerHorizontal formContainer m-t-3"
+      class="col-sm-12 centerHorizontal formContainer m-t-3 scroll"
       [formGroup]="messageForm"
       (ngSubmit)="onSubmit(messageForm.value)"
     >
@@ -27,7 +27,7 @@
           #textInput
           id="text"
           cols="30"
-          rows="9"
+          rows="12"
           matInput
           formControlName="text"
         ></textarea>
@@ -83,16 +83,15 @@
           type="file"
           name="photo"
           class="dn"
-          (change)="loadPosterLoaderPreview($event)"
-          #posterLoader
+          (change)="loadImagePreview($event)"
+          #mediaLoader
         >
 
         <button mat-button
-                *ngIf="!imagePreviewSrc && !sentMedia"
                 class="col-sm-12"
                 color="accent"
                 [disabled]="messageForm.invalid || submitted"
-                (click)="clickProfilePictureSrcInput($event)"
+                (click)="clickMediaSrcInput($event)"
         >
           з пам'яті пристрою
         </button>

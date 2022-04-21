@@ -17,6 +17,7 @@ import {
   OccasionsEditorComponent
 } from "./main/admin_dashboards/occasions_dashboard/occasions-editor/occasions-editor.component";
 import {MessengerComponent} from "./shared/components/messenger/messenger.component";
+import {PollComponent} from "./shared/components/poll/poll.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'main', pathMatch: 'full'},
@@ -32,6 +33,7 @@ const routes: Routes = [
         ]
       },
       {path: 'sendMessage', canActivate: [AuthGuard], component: MessengerComponent},
+      {path: 'polls', canActivate: [AuthGuard], component: PollComponent},
       {
         path: 'occasions', canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
           {path: '', component: OccasionsAdminPageComponent},
