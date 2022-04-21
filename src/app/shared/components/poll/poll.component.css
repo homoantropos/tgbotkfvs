@@ -1,0 +1,6 @@
+.pollContainer {
+  width: 80vw;
+  border: solid grey 1px;
+  background-color: white;
+  overflow: auto;
+}
