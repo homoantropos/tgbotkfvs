@@ -1,10 +1,18 @@
 <button
-  class="col-sm-12 pointer"
+  class="col-sm-6 pointer"
   *ngIf="showSendButton"
   mat-button color="primary"
   (click)="goToMessenger()"
 >
-  send message
+  надіслати повідомлення
+</button>
+<button
+  class="col-sm-6 pointer"
+  *ngIf="showSendButton"
+  mat-button color="primary"
+  (click)="goToPoll()"
+>
+  надіслати опитування
 </button>
 <h4 *ngIf="occasionTitle" class="centerHorizontal m-a-1">{{occasionTitle}}</h4>
 <table class="table table-striped scroll">

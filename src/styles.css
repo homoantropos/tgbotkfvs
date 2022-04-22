@@ -164,6 +164,7 @@ h1, h2, h3, h4, h5 {
 @media (max-width: 510px) {
   .formContainer {
     width: 90vw;
+    height: 80vh;
     padding: 5px 5px 5px 5px;
   }
 

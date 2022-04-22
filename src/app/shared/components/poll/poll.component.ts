@@ -1,24 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
-import {PollService} from "../../services/poll.service";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
+import {MessageService} from "../../services/message.service";
+import {AlertService} from "../../services/alert.-service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-poll',
   templateUrl: './poll.component.html',
   styleUrls: ['./poll.component.css']
 })
-export class PollComponent implements OnInit {
+export class PollComponent implements OnInit, OnDestroy {
 
   pollForm: FormGroup;
+  pSub: Subscription;
+  submitted = false;
+  sent = 0;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private http: HttpClient,
-    private pollService: PollService
+    private messageService: MessageService,
+    private alert: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -32,16 +38,17 @@ export class PollComponent implements OnInit {
       id: [''],
       question:	[''],
       options:	this.fb.array([]),
-      total_voter_count: [0],
+      total_voter_count: [null],
       is_closed: [false],
       is_anonymous: [true],
       type: ['regular'],
       allows_multiple_answers: [false],
-      correct_option_id: [0],
+      correct_option_id: [null],
       explanation: [''],
       explanation_entities:	this.fb.array([]),
-      open_period: [0],
-      close_date: [0],
+      open_period: [600],
+      close_date: [null],
+      parse_mode: ['HTML'],
     });
   }
 
@@ -92,20 +99,39 @@ export class PollComponent implements OnInit {
     Object.keys(value).map(
       key => fd.set(key, value[key])
     );
-    fd.set('chat_id', '481547986');
     fd.delete('options');
     fd.set('options', JSON.stringify(options));
-    Object.keys(value).map(
-      key => console.log(key, fd.get(key))
+    this.messageService.recipients.map(
+      recipient => {
+        this.sent = this.sent + 1;
+        if (fd.has('chat_id')){fd.delete('chat_id');}
+        fd.append('chat_id', recipient.toString());
+        this.submitted = true;
+        this.http.post<any>(`https://api.telegram.org/bot${environment.bot_token}/sendPoll`, fd)
+          .subscribe(
+            response => console.log(response),
+            error => {
+              this.alert.danger(error.message ? error.message : error);
+              this.submitted = false;
+            }
+          );
+      }
     );
-    this.http.post<any>(`https://api.telegram.org/bot${environment.bot_token}/sendPoll`, fd)
-      .subscribe(
-        response => console.log(response),
-        error => console.error(error)
-      );
+    this.alert.success(`успішно надіслано повідомлень: ${this.sent}`);
+    this.pollForm.reset();
+    this.messageService.recipients.splice(0);
+    this.submitted = false;
+    this.router.navigate(['main', 'subscribers']);
   }
 
   onReset(): void {
     this.router.navigate(['main']);
+  }
+
+  ngOnDestroy(): void {
+    if(this.pSub) {
+      this.pSub.unsubscribe()
+    }
+    this.messageService.recipients.splice(0);
   }
 }
