@@ -160,6 +160,28 @@
         </textarea>
       </mat-form-field>
 
+      <button
+        class="col-sm-6"
+        mat-button
+        type="button"
+        color="warn"
+        (click)="onReset()"
+      >скинути
+      </button>
+
+      <button
+        class="col-sm-6"
+        mat-button
+        type="submit"
+        color="primary"
+        [disabled]="pollForm.invalid || submitted"
+      >submit
+      </button>
+
+      <div class="formTitle m-t-1">
+        <p><b>ця частина в розробці</b></p>
+      </div>
+
       <div formArrayName="explanation_entities"
            *ngFor="let _ of explanation_entities.controls; index as i last as last">
         <div class="formArrayGroupContainer" formGroupName="{{i}}">
@@ -224,24 +246,8 @@
         <mat-icon class="pointer centerHorizontal" (click)="addExpEnt()">add</mat-icon>
       </div>
 
-      <button
-        class="col-sm-6"
-        mat-button
-        type="button"
-        color="warn"
-        (click)="onReset()"
-      >скинути
-      </button>
-
-      <button
-        class="col-sm-6"
-        mat-button
-        type="submit"
-        color="primary"
-        [disabled]="pollForm.invalid || submitted"
-      >submit
-      </button>
     </form>
+
   </ng-container>
 </div>
 
