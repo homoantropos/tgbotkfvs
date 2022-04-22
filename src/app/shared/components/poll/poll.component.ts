@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
@@ -18,6 +18,9 @@ export class PollComponent implements OnInit, OnDestroy {
   pSub: Subscription;
   submitted = false;
   sent = 0;
+  today = new Date();
+
+  @ViewChild('question') questionInput: ElementRef<HTMLInputElement>;
 
   constructor(
     private fb: FormBuilder,
@@ -25,19 +28,28 @@ export class PollComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private messageService: MessageService,
     private alert: AlertService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.pollForm = this.createForm();
+    // обовязкова умова телеграму - мінімум два варіанта відповідей, тому метод викликається двічі
+    this.addPollOptions();
     this.addPollOptions();
     this.addExpEnt();
+    if(this.pollForm.controls['question']) {
+      setTimeout(
+        () => this.questionInput.nativeElement.focus(),
+        0
+      )
+    }
   }
 
   createForm(): FormGroup {
     return this.fb.group({
       id: [''],
-      question:	[''],
-      options:	this.fb.array([]),
+      question: ['', [Validators.required]],
+      options: this.fb.array([]),
       total_voter_count: [null],
       is_closed: [false],
       is_anonymous: [true],
@@ -45,10 +57,10 @@ export class PollComponent implements OnInit, OnDestroy {
       allows_multiple_answers: [false],
       correct_option_id: [null],
       explanation: [''],
-      explanation_entities:	this.fb.array([]),
-      open_period: [600],
+      explanation_entities: this.fb.array([]),
+      open_period: [null],
       close_date: [null],
-      parse_mode: ['HTML'],
+      explanation_parse_mode: ['HTML']
     });
   }
 
@@ -59,7 +71,8 @@ export class PollComponent implements OnInit, OnDestroy {
   addPollOptions(): void {
     return this.options.push(
       this.fb.group({
-        text: ['']
+        text: ['', [Validators.required]],
+        voter_count: [null]
       })
     )
   }
@@ -79,7 +92,7 @@ export class PollComponent implements OnInit, OnDestroy {
         offset: [null],
         length: [null],
         url: [''],
-        user: 	[null],
+        user: [null],
         language: ['']
       })
     )
@@ -93,18 +106,22 @@ export class PollComponent implements OnInit, OnDestroy {
     const options: Array<string> = [];
     value.options.map(
       // @ts-ignore
-      text => options.push(text.text)
+      option => options.push(option.text)
     );
     const fd = new FormData();
     Object.keys(value).map(
       key => fd.set(key, value[key])
     );
+    fd.delete('close_date');
+    fd.set('close_date', new Date(this.pollForm.value['close_date']).valueOf().toString());
     fd.delete('options');
     fd.set('options', JSON.stringify(options));
     this.messageService.recipients.map(
       recipient => {
         this.sent = this.sent + 1;
-        if (fd.has('chat_id')){fd.delete('chat_id');}
+        if (fd.has('chat_id')) {
+          fd.delete('chat_id');
+        }
         fd.append('chat_id', recipient.toString());
         this.submitted = true;
         this.http.post<any>(`https://api.telegram.org/bot${environment.bot_token}/sendPoll`, fd)
@@ -129,7 +146,7 @@ export class PollComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.pSub) {
+    if (this.pSub) {
       this.pSub.unsubscribe()
     }
     this.messageService.recipients.splice(0);

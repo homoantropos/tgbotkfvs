@@ -6,57 +6,140 @@
       (ngSubmit)="onSubmit(pollForm.value)"
     >
 
-      <div class="formTitle m-t-2">
-        <p><b>Заповніть поля для опитування</b></p>
+      <div class="formTitle m-t-1">
+        <p><b>задайте питання</b></p>
       </div>
 
-      <mat-form-field>
+      <mat-form-field class="col-sm-10">
+        <mat-label>питання</mat-label>
+        <input
+          title="задайте питання"
+          matInput
+          type="text"
+          formControlName="question"
+          #question
+        />
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-2">
         <mat-label>id</mat-label>
         <input
+          title="не заповнювати"
           matInput
           type="text"
           formControlName="id"
         />
       </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>question</mat-label>
-        <input
-          matInput
-          type="text"
-          formControlName="question"
-        />
-      </mat-form-field>
+      <ng-container *ngIf="pollForm.controls['question'].touched && pollForm.controls['question'].invalid">
+        <small class="error" *ngIf="pollForm.controls['question'].errors['required']">поле повинно бути
+          заповнене</small>
+      </ng-container>
+
+      <div class="formTitle m-t-2">
+        <p><b>наведіть варіанти відповідей</b></p>
+      </div>
 
       <div formArrayName="options" *ngFor="let _ of options.controls; index as i last as last">
         <div class="formArrayGroupContainer" formGroupName="{{i}}">
-          <mat-form-field class="col-sm-9">
-            <mat-label>option</mat-label>
+          <mat-form-field class="col-sm-10">
+            <mat-label>відповідь {{i + 1}}</mat-label>
             <input
               matInput
               type="text"
               formControlName="text"
             />
           </mat-form-field>
-<!--          <mat-form-field class="col-sm-2">-->
-<!--            <mat-label>voter_count</mat-label>-->
-<!--            <input-->
-<!--              matInput-->
-<!--              type="number"-->
-<!--              [min]="0"-->
-<!--              formControlName="voter_count"-->
-<!--            />-->
-<!--          </mat-form-field>-->
+
+          <mat-form-field class="col-sm-2">
+            <mat-label>voter_count</mat-label>
+            <input
+              matInput
+              type="number"
+              [min]="0"
+              formControlName="voter_count"
+            />
+          </mat-form-field>
           <mat-icon class="pointer" (click)="removePollOptions(i)">delete</mat-icon>
+        </div>
+        <div *ngIf="_['controls']['text'].touched && _['controls']['text'].invalid">
+          <small class="error" *ngIf="_['controls']['text'].errors['required']">поле повинно бути заповнене</small>
         </div>
       </div>
 
       <div class="col-sm-12">
-        <mat-icon class="pointer centerHorizontal" (click)="addPollOptions()">add</mat-icon>
+        <mat-icon class="pointer centerHorizontal" (click)="addPollOptions()" title="додати варіант відповіді">add
+        </mat-icon>
+      </div>
+
+      <div class="formTitle m-t-1">
+        <p><b>оберіть опції опитування</b></p>
       </div>
 
       <mat-form-field class="col-sm-2">
-        <mat-label>total_voter_count</mat-label>
+        <mat-label>тип</mat-label>
+        <mat-select title="тип: опитування чи вікторина" formControlName="type">
+          <mat-option value="regular">опитування</mat-option>
+          <mat-option value="quiz">вікторина</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-2">
+        <mat-label>вірна відповідь</mat-label>
+        <input
+          title="номер вірної відповіді"
+          matInput
+          type="number"
+          [min]="0"
+          formControlName="correct_option_id"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-2">
+        <mat-label>is_anonymous</mat-label>
+        <mat-select title="анонімне чи відкрите опитування" formControlName="is_anonymous">
+          <mat-option value="true">анонімне</mat-option>
+          <mat-option value="false">не анонімне</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-2">
+        <mat-label>мультиголосування</mat-label>
+        <mat-select title="дозволено голосувати один раз чи декілька" formControlName="allows_multiple_answers">
+          <mat-option value="true">дозволене</mat-option>
+          <mat-option value="false">заборонене</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-2">
+        <mat-label>тривалість</mat-label>
+        <mat-select formControlName="open_period"
+                    title="наведіть тривалість тут або оберіть дату завершення опитування в наступному вікні">
+          <mat-option value="60">1 хвилина</mat-option>
+          <mat-option value="600">10 хвилин</mat-option>
+          <mat-option value="3600">1 година</mat-option>
+          <mat-option value="86400">1 доба</mat-option>
+          <mat-option value="604800">1 тиждень</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-2">
+        <mat-label>дата завершення:</mat-label>
+        <input matInput [min]="today" [matDatepicker]="$any(close_date)" formControlName="close_date">
+        <mat-datepicker-toggle matSuffix [for]="close_date"></mat-datepicker-toggle>
+        <mat-datepicker #close_date></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-2">
+        <mat-label>статус</mat-label>
+        <mat-select formControlName="is_closed">
+          <mat-option value="true">завершене</mat-option>
+          <mat-option value="false">активне</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-2">
+        <mat-label>голосів</mat-label>
         <input
           matInput
           type="number"
@@ -65,61 +148,22 @@
         />
       </mat-form-field>
 
-      <mat-form-field class="col-sm-2">
-        <mat-label>is_closed</mat-label>
-        <mat-select formControlName="is_closed">
-          <mat-option value="true">закрите</mat-option>
-          <mat-option value="false">відкрите</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="col-sm-2">
-        <mat-label>is_anonymous</mat-label>
-        <mat-select class="col-sm-2" formControlName="is_anonymous">
-          <mat-option value="true">анонімне</mat-option>
-          <mat-option value="false">не анонімне</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="col-sm-2">
-        <mat-label>type</mat-label>
-        <mat-select class="col-sm-2" formControlName="type">
-          <mat-option value="regular">regular</mat-option>
-          <mat-option value="quiz">quiz</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="col-sm-2">
-        <mat-label>allows_multiple_answers</mat-label>
-        <mat-select class="col-sm-2" formControlName="allows_multiple_answers">
-          <mat-option value="true">allow</mat-option>
-          <mat-option value="false">disallow</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="col-sm-2">
-        <mat-label>correct_option_id</mat-label>
-        <input
-          matInput
-          type="number"
-          [min]="0"
-          formControlName="correct_option_id"
-        />
-      </mat-form-field>
-
       <mat-form-field>
-        <mat-label>explanation</mat-label>
-        <input
+        <mat-label>пояснення вірної відповіді (показується голосуючому тільки після здійснення голосування)</mat-label>
+        <textarea
+          cols="30"
+          rows="4"
           matInput
           type="text"
           formControlName="explanation"
-        />
+        >
+        </textarea>
       </mat-form-field>
 
       <div formArrayName="explanation_entities"
            *ngFor="let _ of explanation_entities.controls; index as i last as last">
         <div class="formArrayGroupContainer" formGroupName="{{i}}">
-          <mat-form-field class="col-sm-9">
+          <mat-form-field class="col-sm-2">
             <mat-label>type</mat-label>
             <input
               matInput
@@ -176,26 +220,6 @@
         </div>
       </div>
 
-      <mat-form-field class="col-sm-2">
-      <mat-label>open_period</mat-label>
-      <input
-        matInput
-        type="number"
-        [min]="0"
-        formControlName="open_period"
-      />
-    </mat-form-field>
-
-      <mat-form-field class="col-sm-2">
-        <mat-label>close_date</mat-label>
-        <input
-          matInput
-          type="number"
-          [min]="0"
-          formControlName="close_date"
-        />
-      </mat-form-field>
-
       <div class="col-sm-12">
         <mat-icon class="pointer centerHorizontal" (click)="addExpEnt()">add</mat-icon>
       </div>
@@ -214,6 +238,7 @@
         mat-button
         type="submit"
         color="primary"
+        [disabled]="pollForm.invalid || submitted"
       >submit
       </button>
     </form>
