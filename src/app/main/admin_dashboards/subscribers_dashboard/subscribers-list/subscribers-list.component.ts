@@ -46,14 +46,6 @@ export class SubscribersListComponent implements OnInit {
     this.showSendButton = true;
   }
 
-  goToMessenger(): void {
-    this.router.navigate(['main', 'sendMessage']);
-  }
-
-  goToPoll(): void {
-    this.router.navigate(['main', 'polls']);
-  }
-
   sortTable(sortOption: any): void {
     if(sortOption[0] === 'subscribedAt') {
       this.sortDirection = this.sortService.sortTableByDates(sortOption, this.subscribers, this.sortDirection);

@@ -22,6 +22,7 @@ import {
 } from "../shared/components/messageEditors/send-video-editor/send-video-editor.component";
 import {SendPollComponent} from "../shared/components/messageEditors/send-poll/send-poll.component";
 import {SendMessageComponent} from "../shared/components/messageEditors/send-message/send-message.component";
+import {PageNotFoundComponent} from "../shared/components/page-not-found/page-not-found.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'main', pathMatch: 'full'},
@@ -50,7 +51,8 @@ const routes: Routes = [
         ]
       }
     ]
-  }
+  },
+  {path: '**', component: PageNotFoundComponent}
 ]
 @NgModule({
   imports: [
