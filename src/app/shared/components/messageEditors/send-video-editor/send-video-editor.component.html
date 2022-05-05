@@ -1,0 +1,243 @@
+<div *ngIf="messageForm; else loader"
+              class="centerHorizontal scroll contentContainer"
+>
+
+  <h4><b>оберіть відео:</b></h4>
+
+  <ng-container *ngIf="loading">
+    <h3>завантажуємо, зачекайте ...</h3>
+  </ng-container>
+
+  <div *ngIf="mediaSrc">
+
+    <video
+      [videoSrc]="mediaSrc"
+      appVideoResize
+      class="centerHorizontal"
+      controls
+    >
+      <source
+        [src]="mediaSrc"
+        type="video/mp4"
+      />
+    </video>
+
+  </div>
+
+  <div>
+
+    <input
+      title="hidden input for file uploading"
+      class="dn"
+      type="file"
+      multiple
+      (change)="loadFile($event)"
+      #fileInput
+    />
+
+    <button
+      [disabled]="submitted"
+      class="col-sm-4"
+      title="button to click input file"
+      [backGround]="'green'"
+      appButtonStyle
+      (click)="clickInputFile($event)"
+    >
+      обрати відео
+    </button>
+
+    <button
+      [disabled]="submitted"
+      class="col-sm-4"
+      title="button to reset input file"
+      [backGround]="'gray'"
+      appButtonStyle
+      (click)="resetEditor($event)"
+    >
+      reset
+    </button>
+
+    <button
+      class="col-sm-4"
+      [disabled]="!mediaSrc || submitted"
+      [backGround]="'darkgrey'"
+      appButtonStyle
+      (click)="addThumb = !addThumb"
+    >
+      додати ескіз
+    </button>
+
+  </div>
+
+  <div *ngIf="addThumb">
+    <img
+      [photoSrc]="thumbSrc"
+      appResizing
+      class="centerHorizontal"
+      *ngIf="thumbSrc"
+      [src]="thumbSrc"
+      alt="thumb for video"
+    />
+    <div>
+      <input
+        #thumbInput
+        class="dn"
+        type="file"
+        (change)="loadThumb($event)"
+      />
+
+      <button
+        [disabled]="submitted"
+        class="col-sm-6"
+        title="для додавання ескізу"
+        [backGround]="'green'"
+        appButtonStyle
+        (click)="clickInputThumb($event)"
+      >
+        обрати ескіз
+      </button>
+
+      <button
+        [disabled]="submitted"
+        class="col-sm-6"
+        title="скасувати додавання ескізу"
+        [backGround]="'gray'"
+        appButtonStyle
+        (click)="resetThumb($event)"
+      >
+        reset
+      </button>
+    </div>
+  </div>
+
+  <div>
+    <form
+      [formGroup]="messageForm"
+      (ngSubmit)="onSubmit(messageForm.value)"
+    >
+      <mat-form-field class="col-sm-12">
+        <mat-label>опис відео</mat-label>
+        <textarea
+          title="додати опис відео"
+          matInput
+          cols="30"
+          rows="5"
+          type="text"
+          formControlName="caption"
+        >
+      </textarea>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-12">
+        <mat-label>розмітка відповіді</mat-label>
+        <textarea
+          title="додати замикаючу клавіатуру"
+          matInput
+          cols="30"
+          rows="2"
+          type="text"
+          formControlName="reply_markup"
+        >
+      </textarea>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-4">
+        <mat-label>отримувач</mat-label>
+        <input
+          title="отримувач"
+          matInput
+          type="text"
+          formControlName="chat_id"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-4">
+        <mat-label>parse_mode</mat-label>
+        <mat-select
+          title="метод парсингу"
+          formControlName="parse_mode"
+        >
+          <mat-option value="HTML">HTML</mat-option>
+          <mat-option value="MarkdownV2">MarkdownV2</mat-option>
+          <mat-option value="Markdown">Markdown</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-4">
+        <mat-label>reply_to_message_id</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="reply_to_message_id"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-3">
+        <mat-label>повідомляти про отримання</mat-label>
+        <mat-select
+          title="визначення чи повідомляти адресата про отримання повідомлення"
+          formControlName="disable_notification"
+        >
+          <mat-option [value]=true>ні</mat-option>
+          <mat-option [value]=false>так</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-3">
+        <mat-label>захист змісту</mat-label>
+        <mat-select
+          title="визначення чи дозволити чи заборонити адресату репостити повідомлення"
+          formControlName="protect_content"
+        >
+          <mat-option [value]=true>так</mat-option>
+          <mat-option [value]=false>ні</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-3">
+        <mat-label>дозволити надсилання без відповіді</mat-label>
+        <mat-select
+          title="визначення чи дозволяти надсилати повідомлення без відповіді"
+          formControlName="allow_sending_without_reply"
+        >
+          <mat-option [value]=true>дозволити</mat-option>
+          <mat-option [value]=false>заборонити</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-3">
+        <mat-label>supports_streaming</mat-label>
+        <mat-select
+          formControlName="supports_streaming"
+        >
+          <mat-option [value]=true>дозволити</mat-option>
+          <mat-option [value]=false>заборонити</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button
+        class="col-sm-6"
+        [backGround]="'gray'"
+        appButtonStyle
+        (click)="closeEditor()"
+      >
+        cancel
+      </button>
+
+      <button
+        class="col-sm-6"
+        type="submit"
+        [disabled]="messageForm.invalid || submitted"
+        [backGround]="'green'"
+        appButtonStyle
+      >
+        send message
+      </button>
+    </form>
+  </div>
+</div>
+
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>
+

@@ -1,0 +1,230 @@
+<ng-container *ngIf="pollForm; else loader"
+              class="centerHorizontal scroll contentContainer"
+>
+
+  <h4><b>створіть опитування:</b></h4>
+
+  <form
+    class="contentContainer scroll centerHorizontal"
+    [formGroup]="pollForm"
+    (ngSubmit)="onSubmit(pollForm.value)"
+  >
+
+    <div class="formTitle m-t-1">
+      <p><b>задайте питання</b></p>
+    </div>
+
+    <mat-form-field class="col-sm-10">
+      <mat-label>питання</mat-label>
+      <input
+        title="задайте питання"
+        matInput
+        type="text"
+        formControlName="question"
+        #question
+      />
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-2">
+      <mat-label>chat_id</mat-label>
+      <input
+        title="не заповнювати"
+        matInput
+        type="text"
+        formControlName="chat_id"
+      />
+    </mat-form-field>
+
+    <ng-container *ngIf="pollForm.controls['question'].touched && pollForm.controls['question'].invalid">
+      <small class="error" *ngIf="pollForm.controls['question'].errors['required']">поле повинно бути
+        заповнене</small>
+    </ng-container>
+
+    <div class="formTitle m-t-2">
+      <p><b>наведіть варіанти відповідей</b></p>
+    </div>
+
+    <div formArrayName="options" *ngFor="let _ of options.controls; index as i">
+      <div class="formArrayGroupContainer" formGroupName="{{i}}">
+        <mat-form-field class="col-sm-10">
+          <mat-label>відповідь {{i + 1}}</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="text"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-2">
+          <mat-label>voter_count</mat-label>
+          <input
+            matInput
+            type="number"
+            [min]="0"
+            formControlName="voter_count"
+          />
+        </mat-form-field>
+        <mat-icon class="pointer" (click)="removePollOptions(i)">delete</mat-icon>
+      </div>
+      <div *ngIf="_['controls']['text'].touched && _['controls']['text'].invalid">
+        <small class="error" *ngIf="_['controls']['text'].errors['required']">поле повинно бути заповнене</small>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <mat-icon class="pointer centerHorizontal" (click)="addPollOptions()" title="додати варіант відповіді">add
+      </mat-icon>
+    </div>
+
+    <div class="formTitle m-t-1">
+      <p><b>оберіть опції опитування</b></p>
+    </div>
+
+    <mat-form-field class="col-sm-2">
+      <mat-label>тип</mat-label>
+      <mat-select title="тип: опитування чи вікторина" formControlName="type">
+        <mat-option value="regular">опитування</mat-option>
+        <mat-option value="quiz">вікторина</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-2">
+      <mat-label>вірна відповідь</mat-label>
+      <input
+        title="номер вірної відповіді"
+        matInput
+        type="number"
+        [min]="0"
+        formControlName="correct_option_id"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-2">
+      <mat-label>is_anonymous</mat-label>
+      <mat-select title="анонімне чи відкрите опитування" formControlName="is_anonymous">
+        <mat-option value="true">анонімне</mat-option>
+        <mat-option value="false">не анонімне</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-2">
+      <mat-label>мультиголосування</mat-label>
+      <mat-select title="дозволено голосувати один раз чи декілька" formControlName="allows_multiple_answers">
+        <mat-option value="true">дозволене</mat-option>
+        <mat-option value="false">заборонене</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-2">
+      <mat-label>тривалість</mat-label>
+      <mat-select formControlName="open_period"
+                  title="наведіть тривалість тут або оберіть дату завершення опитування в наступному вікні">
+        <mat-option value="60">1 хвилина</mat-option>
+        <mat-option value="600">10 хвилин</mat-option>
+        <mat-option value="3600">1 година</mat-option>
+        <mat-option value="86400">1 доба</mat-option>
+        <mat-option value="604800">1 тиждень</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-2">
+      <mat-label>дата завершення:</mat-label>
+      <input matInput [min]="today" [matDatepicker]="$any(close_date)" formControlName="close_date">
+      <mat-datepicker-toggle matSuffix [for]="close_date"></mat-datepicker-toggle>
+      <mat-datepicker #close_date></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-12">
+      <mat-label>пояснення вірної відповіді (показується голосуючому тільки після здійснення голосування)</mat-label>
+      <textarea
+        cols="30"
+        rows="4"
+        matInput
+        type="text"
+        formControlName="explanation"
+      >
+        </textarea>
+    </mat-form-field>
+
+    <div class="formTitle m-t-1">
+      <p><b>оберіть опції повідомлення</b></p>
+    </div>
+
+    <mat-form-field class="col-sm-4">
+      <mat-label>повідомляти про отримання</mat-label>
+      <mat-select
+        title="визначення чи повідомляти адресата про отримання повідомлення"
+        formControlName="disable_notification"
+      >
+        <mat-option [value]=true>ні</mat-option>
+        <mat-option [value]=false>так</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-4">
+      <mat-label>захист змісту</mat-label>
+      <mat-select
+        title="визначення чи дозволити чи заборонити адресату репостити повідомлення"
+        formControlName="protect_content"
+      >
+        <mat-option [value]=true>так</mat-option>
+        <mat-option [value]=false>ні</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-4">
+      <mat-label>дозволити надсилання без відповіді</mat-label>
+      <mat-select
+        title="визначення чи дозволяти надсилати повідомлення без відповіді"
+        formControlName="allow_sending_without_reply"
+      >
+        <mat-option [value]=true>дозволити</mat-option>
+        <mat-option [value]=false>заборонити</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!--    <mat-form-field class="col-sm-6">-->
+    <!--      <mat-label>статус</mat-label>-->
+    <!--      <mat-select formControlName="is_closed">-->
+    <!--        <mat-option value="true">завершене</mat-option>-->
+    <!--        <mat-option value="false">активне</mat-option>-->
+    <!--      </mat-select>-->
+    <!--    </mat-form-field>-->
+
+    <!--    <mat-form-field class="col-sm-6">-->
+    <!--      <mat-label>голосів</mat-label>-->
+    <!--      <input-->
+    <!--        matInput-->
+    <!--        type="number"-->
+    <!--        [min]="0"-->
+    <!--        formControlName="total_voter_count"-->
+    <!--      />-->
+    <!--    </mat-form-field>-->
+
+    <button
+      [backGround]="'gray'"
+      appButtonStyle
+      class="col-sm-6"
+      type="button"
+      (click)="onReset()"
+    >скинути
+    </button>
+
+    <button
+      [backGround]="'green'"
+      appButtonStyle
+      class="col-sm-6"
+      type="submit"
+      [disabled]="pollForm.invalid || submitted"
+    >submit
+    </button>
+
+  </form>
+
+</ng-container>
+
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>
+
+
