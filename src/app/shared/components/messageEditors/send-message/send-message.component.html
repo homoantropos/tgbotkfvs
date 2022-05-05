@@ -1,0 +1,155 @@
+<ng-container *ngIf="messageForm; else loader"
+              class="centerHorizontal scroll contentContainer"
+>
+
+  <h4><b>внесіть дані повідомлення:</b></h4>
+
+  <form
+    class="contentContainer scroll centerHorizontal"
+    [formGroup]="messageForm"
+    (ngSubmit)="onSubmit(messageForm.value)"
+  >
+    <div
+      class="col-sm-12"
+      *ngIf="messageForm.controls['text'].touched && messageForm.controls['text'].invalid"
+    >
+      <small class="error" *ngIf="messageForm.controls['text'].invalid && messageForm.controls['text'].errors['required']">
+        Поле повинно бути заповнене
+      </small>
+    </div>
+    <mat-form-field class="col-sm-12">
+      <mat-label>текст повідомлення</mat-label>
+      <textarea
+        title="текст повідомлення"
+        matInput
+        cols="30"
+        rows="5"
+        type="text"
+        formControlName="text"
+        #text
+      >
+      </textarea>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-12">
+      <mat-label>розмітка відповіді</mat-label>
+      <textarea
+        title="додати замикаючу клавіатуру"
+        matInput
+        cols="30"
+        rows="5"
+        type="text"
+        formControlName="reply_markup"
+      >
+      </textarea>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-4">
+      <mat-label>отримувач</mat-label>
+      <input
+        title="отримувач"
+        matInput
+        type="number"
+        formControlName="chat_id"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-4">
+      <mat-label>parse_mode</mat-label>
+      <mat-select
+        title="метод парсингу"
+        formControlName="parse_mode"
+      >
+        <mat-option value="HTML">HTML</mat-option>
+        <mat-option value="MarkdownV2">MarkdownV2</mat-option>
+        <mat-option value="Markdown">Markdown</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-4">
+      <mat-label>reply_to_message_id</mat-label>
+      <input
+        title="id повідомлення на яке здійснюється відповідь"
+        matInput
+        type="text"
+        formControlName="reply_to_message_id"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>повідомляти про отримання</mat-label>
+      <mat-select
+        title="визначення чи повідомляти адресата про отримання повідомлення"
+        formControlName="disable_notification"
+      >
+        <mat-option [value]=true>ні</mat-option>
+        <mat-option [value]=false>так</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>дозволити предпоказ сторінки</mat-label>
+      <mat-select
+        formControlName="disable_web_page_preview"
+        title="визначення чи дозволяти предпоказ веб-сторінки, яка згадується в повідомленні"
+      >
+        <mat-option [value]=true>так</mat-option>
+        <mat-option [value]=false>ні</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>захист змісту</mat-label>
+      <mat-select
+        title="визначення чи дозволити чи заборонити адресату репостити повідомлення"
+        formControlName="protect_content"
+      >
+        <mat-option [value]=true>так</mat-option>
+        <mat-option [value]=false>ні</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+      <mat-label>дозволити надсилання без відповіді</mat-label>
+      <mat-select
+        title="визначення чи дозволяти надсилати повідомлення без відповіді"
+        formControlName="allow_sending_without_reply"
+      >
+        <mat-option [value]=true>дозволити</mat-option>
+        <mat-option [value]=false>заборонити</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="col-sm-12">
+      <button
+        class="col-sm-6"
+        [backGround]="'gray'"
+        appButtonStyle
+        type="button"
+        (click)="goToSubsPage()"
+      >
+        cancel
+      </button>
+
+      <button
+        class="col-sm-6"
+        [disabled]="messageForm.invalid || sending"
+        [backGround]="'green'"
+        appButtonStyle
+        type="submit"
+      >
+        send message
+      </button>
+    </div>
+
+  </form>
+</ng-container>
+
+<ng-template #loader>
+  <app-loader></app-loader>
+
+</ng-template>
+
+
+
+

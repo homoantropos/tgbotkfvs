@@ -1,3 +1,13 @@
+<nav class="navBar"
+     *ngIf="showSendButton">
+  <ul>
+    <li><a routerLink="sendMessage" routerLinkActive="active">send message</a></li>
+    <li><a routerLink="sendPhoto" routerLinkActive="active">send photo</a></li>
+    <li><a routerLink="sendVideo" routerLinkActive="active">send video</a></li>
+    <li><a routerLink="sendPoll" routerLinkActive="active">send poll</a></li>
+  </ul>
+</nav>
+
 <button
   class="col-sm-6 pointer"
   *ngIf="showSendButton"

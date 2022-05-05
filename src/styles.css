@@ -2,13 +2,23 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
-html, body {
+html {
   height: 100%;
 }
 
 body {
   margin: 0;
   font-family: "Roboto Condensed", Roboto, "Helvetica Neue", sans-serif;
+}
+
+body {
+  height: 100%;
+}
+
+@media screen and (orientation: portrait) {
+  body {
+    padding: 0;
+  }
 }
 
 div .paginatorSelect {
@@ -33,10 +43,6 @@ div .paginatorSelect small {
   margin-top: 0;
 }
 
-h1, h2, h3, h4, h5 {
-  text-align: center;
-}
-
 .my-pagination {
   z-index: 1;
   font-family: "Oswald", "Roboto Condensed", sans-serif;
@@ -57,10 +63,6 @@ h1, h2, h3, h4, h5 {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 1;
-}
-
-.error {
-  color: red;
 }
 
 .centerVertical {
@@ -223,4 +225,95 @@ mat-toolbar span {
 .info {
   background-color: grey;
 }
+
+/* buttons styles works together with buttonsStylingDirective */
+button {
+  font-family: "Oswald Light", "Roboto Condensed", sans-serif;
+  margin: 5px 0 5px 0;
+}
+
+button:disabled {
+  background-color: rgba(80, 80, 89, 0.2) !important;
+}
+
+/* contentContainer class start */
+.contentContainer {
+  padding-top: 5px;
+  width: 80%;
+  height: 90vh;
+  align-items: center;
+}
+
+@media screen and (max-width: 300px) {
+  .contentContainer mat-form-field {
+    width: 100%;
+  }
+}
+/* contentContainer class end */
+
+.error {
+  color: red;
+  font-family: "Oswald ExtraLight", "Roboto Condensed Light", sans-serif;
+  position: relative;
+  left: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: "Oswald Light", "Roboto Condensed Light", sans-serif;
+  text-align: center;
+}
+
+.infoDesk {
+  width: 60vw;
+  background-color: darkgrey;
+  font-family: "Oswald ExtraLight", "Roboto Condensed Light", sans-serif;
+  color: white;
+}
+
+/* navBar classes start */
+.navBar {
+  background-color: gray;
+  min-width: 240px;
+}
+
+.navBar ul {
+  margin-top: 0;
+}
+
+.navBar ul li {
+  list-style: none;
+  display: inline-flex;
+  margin-right: 10px;
+}
+
+.navBar ul li a {
+  text-decoration: none;
+  font-family: "Oswald", "Roboto Condensed Light", sans-serif;
+  color: white;
+}
+
+@media (max-width: 500px) {
+  .navBar ul li a {
+    font-size: small;
+  }
+}
+
+@media screen and (max-width: 350px) and (orientation: portrait) {
+  .navBar ul li a {
+    font-size: x-small;
+  }
+}
+
+@media screen and (max-width: 290px) and (orientation: portrait) {
+  .navBar ul li {
+    margin-right: 5px;
+  }
+  .navBar ul li a {
+    font-family: "Oswald ExtraLight", sans-serif;
+    font-size: xx-small;
+  }
+}
+/* navBar classes end */
+
+
 
