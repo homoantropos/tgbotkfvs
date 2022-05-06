@@ -47,14 +47,14 @@
     </button>
 
     <button
-      [disabled]="submitted"
+      [disabled]="submitted || !media"
       class="col-sm-4"
       title="button to reset input file"
       [backGround]="'gray'"
       appButtonStyle
-      (click)="resetEditor($event)"
+      (click)="resetVideo($event)"
     >
-      reset
+      скинути відео
     </button>
 
     <button
@@ -105,7 +105,7 @@
         appButtonStyle
         (click)="resetThumb($event)"
       >
-        reset
+        скинути ескіз
       </button>
     </div>
   </div>
@@ -216,7 +216,7 @@
       </mat-form-field>
 
       <button
-        class="col-sm-6"
+        class="col-sm-4"
         [backGround]="'gray'"
         appButtonStyle
         (click)="closeEditor()"
@@ -225,9 +225,19 @@
       </button>
 
       <button
-        class="col-sm-6"
+        class="col-sm-4"
+        [backGround]="'darkgrey'"
+        appButtonStyle
+        type="button"
+        (click)="resetForm($event)"
+      >
+        reset
+      </button>
+
+      <button
+        class="col-sm-4"
         type="submit"
-        [disabled]="messageForm.invalid || submitted"
+        [disabled]="messageForm.invalid || submitted || !media"
         [backGround]="'green'"
         appButtonStyle
       >

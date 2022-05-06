@@ -21,10 +21,11 @@ export class MessageService {
 
   getDefaultText(): string {
     return `<b id="заголовок"></b>
-<i title="стислий опис"></i>
-<b title="дата"></b> <i title="примітка до дати (за потребою)"></i>
-<b title="місце"></b> <i title="примітка до місця (за потребою)"></i>
-<b title="організатор"></b> <i title="примітка до організатора (за потребою)"></i>
+<i title="дата"></i>
+
+<b title="основний зміст"></b>
+
+<i title="додатковий зміст (за потребою)"></i>
 
 <a title="" href="">докладніше</a>
 `

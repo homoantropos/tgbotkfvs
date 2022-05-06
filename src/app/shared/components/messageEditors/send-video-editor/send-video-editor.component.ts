@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 
@@ -13,7 +13,7 @@ import {MessageService} from "../../../services/message.service";
   styleUrls: ['./send-video-editor.component.css']
 })
 
-export class SendVideoEditorComponent implements OnInit {
+export class SendVideoEditorComponent implements OnInit,OnDestroy {
 
   messageForm: FormGroup;
 
@@ -33,7 +33,7 @@ export class SendVideoEditorComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private messServer: MessageService,
+    private messageService: MessageService,
     private postman: PostmanService,
     private alert: AlertService,
     private protector: LoadFileProtectionService
@@ -43,14 +43,14 @@ export class SendVideoEditorComponent implements OnInit {
   ngOnInit(): void {
     this.messageForm = this.fb.group({
       chat_id: [''],
-      caption: [''],
+      caption: [this.messageService.getDefaultText()],
       parse_mode: ['HTML'],
       supports_streaming: [false],
-      disable_notification: [false],
+      disable_notification: [true],
       protect_content: [false],
       reply_to_message_id: [null],
       allow_sending_without_reply: [false],
-      reply_markup: ['{"inline_keyboard":[[{"text":"hey","url":"sportmon.org"}]]}']
+      reply_markup: [JSON.stringify(this.messageService.getDefaultReplyMarkup())]
     });
   }
 
@@ -64,7 +64,7 @@ export class SendVideoEditorComponent implements OnInit {
   loadFile(event: any): void {
     if (this.protector.isVideo(event.target.files[0])) {
       this.loading = true;
-      this.resetEditor();
+      this.resetForm();
       this.media = event.target.files[0];
       const reader = new FileReader();
 
@@ -108,15 +108,13 @@ export class SendVideoEditorComponent implements OnInit {
       return;
     }
     this.submitted = true;
-    this.messServer.recipients.map(
+    this.messageService.recipients.map(
       recipient => {
         value.chat_id = recipient;
         this.postman.sendVideo(value, this.media, this.thumb)
           .subscribe(
             () => {
               this.alert.success('Повідомлення успішно доставлене');
-              this.submitted = false;
-              this.closeEditor();
             },
             error => {
               this.alert.danger(error.message ? error.message : error);
@@ -125,21 +123,28 @@ export class SendVideoEditorComponent implements OnInit {
             }
           );
       }
-    )
+    );
+    if(this.submitted) {
+      this.closeEditor();
+    }
   }
 
-  closeEditor(): void {
-    this.resetEditor();
-    this.router.navigateByUrl(`main/subscribers`);
+  resetForm(event?: any): void {
+    if (event) {
+      this.stopEvent(event);
+    }
+    this.submitted = false;
+    this.ngOnInit();
+    this.resetVideo();
+    this.resetThumb();
   }
 
-  resetEditor(event?: any): void {
+  resetVideo(event?: any): void {
     if (event) {
       this.stopEvent(event);
     }
     this.media = null;
     this.mediaSrc = '';
-    this.resetThumb();
   }
 
   resetThumb(event?: any): void {
@@ -151,8 +156,17 @@ export class SendVideoEditorComponent implements OnInit {
     this.addThumb = false;
   }
 
+  closeEditor(): void {
+    this.router.navigateByUrl(`main/subscribers`);
+  }
+
   stopEvent(event: any): void {
     event.stopPropagation();
     event.preventDefault();
+  }
+
+  ngOnDestroy() {
+    this.submitted = false;
+    this.messageService.recipients.splice(0);
   }
 }

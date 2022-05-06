@@ -13,7 +13,8 @@
       class="col-sm-12"
       *ngIf="messageForm.controls['text'].touched && messageForm.controls['text'].invalid"
     >
-      <small class="error" *ngIf="messageForm.controls['text'].invalid && messageForm.controls['text'].errors['required']">
+      <small class="error"
+             *ngIf="messageForm.controls['text'].invalid && messageForm.controls['text'].errors['required']">
         Поле повинно бути заповнене
       </small>
     </div>
@@ -23,7 +24,7 @@
         title="текст повідомлення"
         matInput
         cols="30"
-        rows="5"
+        rows="10"
         type="text"
         formControlName="text"
         #text
@@ -122,18 +123,28 @@
 
     <div class="col-sm-12">
       <button
-        class="col-sm-6"
+        class="col-sm-4"
         [backGround]="'gray'"
         appButtonStyle
         type="button"
-        (click)="goToSubsPage()"
+        (click)="closeEditor()"
       >
         cancel
       </button>
 
       <button
-        class="col-sm-6"
-        [disabled]="messageForm.invalid || sending"
+        class="col-sm-4"
+        [backGround]="'darkgrey'"
+        appButtonStyle
+        type="button"
+        (click)="resetForm($event)"
+      >
+        reset
+      </button>
+
+      <button
+        class="col-sm-4"
+        [disabled]="messageForm.invalid || submitted"
         [backGround]="'green'"
         appButtonStyle
         type="submit"

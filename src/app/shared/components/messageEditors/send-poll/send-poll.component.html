@@ -204,16 +204,26 @@
     <button
       [backGround]="'gray'"
       appButtonStyle
-      class="col-sm-6"
+      class="col-sm-4"
       type="button"
-      (click)="onReset()"
+      (click)="closeEditor()"
     >скинути
+    </button>
+
+    <button
+      class="col-sm-4"
+      [backGround]="'darkgrey'"
+      appButtonStyle
+      type="button"
+      (click)="resetForm($event)"
+    >
+      reset
     </button>
 
     <button
       [backGround]="'green'"
       appButtonStyle
-      class="col-sm-6"
+      class="col-sm-4"
       type="submit"
       [disabled]="pollForm.invalid || submitted"
     >submit

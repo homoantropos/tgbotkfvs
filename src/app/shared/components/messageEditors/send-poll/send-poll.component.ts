@@ -24,7 +24,7 @@ export class SendPollComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private messServer: MessageService,
+    private messageService: MessageService,
     private postman: PostmanService,
     private alert: AlertService
   ) {
@@ -58,7 +58,7 @@ export class SendPollComponent implements OnInit, OnDestroy {
       open_period: [null],
       close_date: [null],
       explanation_parse_mode: ['HTML'],
-      disable_notification: [false],
+      disable_notification: [true],
       protect_content: [false],
       allow_sending_without_reply: [false]
     });
@@ -87,14 +87,13 @@ export class SendPollComponent implements OnInit, OnDestroy {
     }
     this.submitted = true;
 
-    this.messServer.recipients.map(
+    this.messageService.recipients.map(
       recipient => {
         value.chat_id = recipient;
         this.postman.sentPoll(value)
           .subscribe(
             () => {
               this.alert.success('Повідомлення успішно доставлене');
-              this.onReset();
             },
             error => {
               this.alert.danger(error.message ? error.message : error);
@@ -104,18 +103,35 @@ export class SendPollComponent implements OnInit, OnDestroy {
           );
       }
     );
+    if(this.submitted) {
+      this.closeEditor();
+    }
   }
 
-  onReset(): void {
-    this.pollForm.reset();
+
+  resetForm(event?: any): void {
+    if(event) {
+      this.stopEvent(event);
+    }
     this.submitted = false;
+    this.ngOnInit();
+  }
+
+  closeEditor(): void {
     this.router.navigateByUrl(`main/subscribers`);
   }
 
-  ngOnDestroy(): void {
+  stopEvent(event: any): void {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
+  ngOnDestroy() {
     if (this.pSub) {
       this.pSub.unsubscribe();
     }
+    this.submitted = false;
+    this.messageService.recipients.splice(0);
   }
 
 }

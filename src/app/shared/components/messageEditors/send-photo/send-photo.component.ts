@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 
@@ -13,7 +13,7 @@ import {MessageService} from "../../../services/message.service";
   styleUrls: ['./send-photo.component.css']
 })
 
-export class SendPhotoComponent implements OnInit {
+export class SendPhotoComponent implements OnInit, OnDestroy {
 
   messageForm: FormGroup;
 
@@ -30,7 +30,7 @@ export class SendPhotoComponent implements OnInit {
     private router: Router,
     private postman: PostmanService,
     private alert: AlertService,
-    private messServer: MessageService,
+    private messageService: MessageService,
     private protector: LoadFileProtectionService
   ) {
   }
@@ -38,13 +38,13 @@ export class SendPhotoComponent implements OnInit {
   ngOnInit(): void {
     this.messageForm = this.fb.group({
       chat_id: [''],
-      caption: [''],
+      caption: [this.messageService.getDefaultText()],
       parse_mode: ['HTML'],
-      disable_notification: [false],
+      disable_notification: [true],
       protect_content: [false],
       reply_to_message_id: [null],
       allow_sending_without_reply: [false],
-      reply_markup: ['{"inline_keyboard":[[{"text":"hey","url":"sportmon.org"}]]}']
+      reply_markup: [JSON.stringify(this.messageService.getDefaultReplyMarkup())]
     });
   }
 
@@ -77,15 +77,13 @@ export class SendPhotoComponent implements OnInit {
       return;
     }
     this.submitted = true;
-    this.messServer.recipients.map(
+    this.messageService.recipients.map(
       recipient => {
         value.chat_id = recipient;
         this.postman.sendPhoto(value, this.photo)
           .subscribe(
             () => {
               this.alert.success('Повідомлення успішно доставлене');
-              this.submitted = false;
-              this.closeEditor();
             },
             error => {
               this.alert.danger(error.message ? error.message : error);
@@ -95,27 +93,30 @@ export class SendPhotoComponent implements OnInit {
           );
       }
     );
-
+    if(this.submitted) {
+      this.closeEditor();
+    }
   }
 
-  closeEditor(): void {
-    this.resetEditor();
-    this.router.navigateByUrl(`main/subscribers`);
+  resetForm(event?: any): void {
+    if (event) {
+      this.stopEvent(event);
+    }
+    this.submitted = false;
+    this.resetPhoto();
+    this.ngOnInit();
   }
 
-  resetEditor(event?: any): void {
+  resetPhoto(event?: any): void {
     if (event) {
       this.stopEvent(event);
     }
     this.photo = null;
     this.photoSrc = '';
-    this.resetThumb();
   }
 
-  resetThumb(event?: any): void {
-    if (event) {
-      this.stopEvent(event);
-    }
+  closeEditor(): void {
+    this.router.navigateByUrl(`main/subscribers`);
   }
 
   stopEvent(event: Event): void {
@@ -123,6 +124,10 @@ export class SendPhotoComponent implements OnInit {
     event.stopPropagation();
   }
 
+  ngOnDestroy() {
+    this.submitted = false;
+    this.messageService.recipients.splice(0);
+  }
 }
 
 

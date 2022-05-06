@@ -39,14 +39,14 @@
     </button>
 
     <button
-      [disabled]="submitted"
+      [disabled]="submitted || !photo"
       class="col-sm-6"
       title="button to reset input file"
       [backGround]="'gray'"
       appButtonStyle
-      (click)="closeEditor()"
+      (click)="resetPhoto()"
     >
-      reset
+      скинути фото
     </button>
   </div>
 
@@ -150,7 +150,7 @@
 
       <div class="col-sm-12">
         <button
-          class="col-sm-6"
+          class="col-sm-4"
           [backGround]="'gray'"
           appButtonStyle
           type="button"
@@ -160,8 +160,18 @@
         </button>
 
         <button
-          class="col-sm-6"
-          [disabled]="messageForm.invalid || submitted"
+          class="col-sm-4"
+          [backGround]="'darkgrey'"
+          appButtonStyle
+          type="button"
+          (click)="resetForm($event)"
+        >
+          reset
+        </button>
+
+        <button
+          class="col-sm-4"
+          [disabled]="messageForm.invalid || submitted || !photo"
           [backGround]="'green'"
           appButtonStyle
           type="submit"

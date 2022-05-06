@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Subscriber} from "../../../../shared/interfaces";
 import {TableSortService} from "../../../../shared/services/table-sort.service";
 import {MessageService} from "../../../../shared/services/message.service";
@@ -14,6 +14,9 @@ export class SubscribersListComponent implements OnInit {
 
   @Input() subscribers: Array<Subscriber> = [];
   @Input() occasionTitle = '';
+
+  @ViewChild('mainCheckBox') mainCheckBox: ElementRef<HTMLInputElement>;
+  subsChecked = 0;
 
   paginatorStartPageNumber = 0;
   itemsPerPage = 10;
@@ -35,6 +38,12 @@ export class SubscribersListComponent implements OnInit {
 
   selectRecipients(tgId?: number): void {
     if (tgId) {
+      ++this.subsChecked;
+      if (this.mainCheckBox && this.subsChecked === this.subscribers.length) {
+        this.mainCheckBox.nativeElement.checked = true;
+      } else {
+        this.mainCheckBox.nativeElement.indeterminate = true;
+      }
       this.messageService.recipients.push(tgId);
     } else {
       this.subscribers.map(
